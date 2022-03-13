@@ -8,7 +8,7 @@ import Modal from '@mui/material/Modal';
 
 import axios from 'axios';
 
-//import Header from './components/Header/Header';
+import Logins from './components/Logins';
 //import Management from './components/Management/Management';
 //import Points from './components/Points/Points';
 //import Statistics from './components/Statistics/Statistics';
@@ -19,17 +19,18 @@ import axios from 'axios';
 
 //import { Statistic } from './interfaceStat.d';
 
-export interface InpDate {
-  fileNames: string[];
-  message: string;
-}
+// export interface InpDate {
+//   fileNames: string[];
+//   message: string;
+// }
 
+let extData = '00.00.0000';
 
 const App = () => {
   const styleApp01 = {
     fontSize: 14,
-    marginRight: 1,
-    width: '21%',
+    marginRight: 0.5,
+    width: '18%',
     maxHeight: '21px',
     minHeight: '21px',
     backgroundColor: '#F1F3F4',
@@ -39,47 +40,14 @@ const App = () => {
 
   const styleApp02 = {
     fontSize: 14,
-    marginRight: 1,
+    marginRight: 0.5,
+    borderRadius: 1,
+    width: '12%',
     maxHeight: '21px',
     minHeight: '21px',
-    width: '20%',
-    backgroundColor: '#F1F3F4',
+    backgroundColor: '#FFE295',
     color: 'black',
-    textTransform: 'unset !important',
-  };
-
-  // const styleAppExit = {
-  //   fontSize: 14,
-  //   marginLeft: 'auto',
-  //   marginRight: 0,
-  //   maxHeight: '21px',
-  //   minHeight: '21px',
-  //   width: '9%',
-  //   backgroundColor: '#F1F3F4',
-  //   color: 'black',
-  //   textTransform: 'unset !important',
-  // };
-
-  const styleMod = {
-    position: 'absolute',
-    top: '22.8%',
-    left: '47.7%',
-    transform: 'translate(-50%, -50%)',
-    width: 500,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    borderColor: 'red',
-    borderRadius: 2,
-    boxShadow: 24,
-    p: 4,
-  };
-
-  const styleBatMenu = {
-    fontSize: 14,
-    backgroundColor: '#F1F3F4',
-    color: 'red',
-    marginTop: 1,
-    textTransform: 'unset !important',
+    textAlign: 'center',
   };
 
   const styleModalMenu = {
@@ -97,12 +65,12 @@ const App = () => {
     bottom: '-45vh',
     marginLeft: '60vh',
     transform: 'translate(-50%, -50%)',
-    width: 200,
+    width: 150,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     borderRadius: 2,
     boxShadow: 24,
-    p: 1,
+    p: 3,
   };
 
   const [open, setOpen] = React.useState(false);
@@ -112,28 +80,35 @@ const App = () => {
 
   const handleClose = (numer: number) => {
     if (numer !== 777) {
-      setCrossData(numer)
-      setValue('1')
+      setCrossData(numer);
+      setValue('1');
+      extData =
+        points[numer].slice(11, 13) +
+        '.' +
+        points[numer].slice(8, 10) +
+        '.' +
+        points[numer].slice(3, 7);
     }
     setOpen(false);
   };
 
   const SpisData = () => {
     let resStr = [];
+    let stroka = '';
+    let strDat = '';
+
     for (let i = 0; i < points.length; i++) {
+      stroka = points[i];
+      strDat = stroka.slice(11, 13) + '.' + stroka.slice(8, 10) + '.' + stroka.slice(3, 7);
       resStr.push(
         <Button key={i} sx={styleModalMenu} variant="contained" onClick={() => handleClose(i)}>
-          <b>
-            {points[i]}
-          </b>
+          <b>{strDat}</b>
         </Button>,
       );
     }
     resStr.push(
       <Button key={777} sx={styleModalMenu} variant="contained" onClick={() => handleClose(777)}>
-        <b>
-          Выход
-        </b>
+        <b>Выход</b>
       </Button>,
     );
     return resStr;
@@ -143,7 +118,7 @@ const App = () => {
     return (
       <>
         <Button sx={styleApp01} variant="contained" onClick={handleOpen}>
-          <b>Выберите дату</b>
+          <b>Выбор по дате</b>
         </Button>
         <Modal
           open={open}
@@ -154,18 +129,15 @@ const App = () => {
           </Box>
         </Modal>
       </>
-    )
-  }
+    );
+  };
 
-  // const Close = () => {
-  //   return <h1>
-  //     Выход
-  //     //{window.close()}
-  //   </h1>
+  const CloseAll = () => {
+    window.close();
+  };
 
-  // };
-
-  const [points, setPoints] = React.useState<Array<InpDate>>([]);
+  //const [points, setPoints] = React.useState<Array<InpDate>>([]);
+  const [points, setPoints] = React.useState<Array<string>>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
 
@@ -176,31 +148,31 @@ const App = () => {
     });
   }, [ipAdress]);
 
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState('0');
 
   return (
     <>
+      <TabContext value={value}>
+        <Box sx={{ marginLeft: 0.5, marginTop: 0.5 }}>
+          <Stack direction="row">
+            <ChoiceData />
 
-      <Box sx={{ width: '98.8%', typography: 'body2' }}>
-        <TabContext value={value}>
-          <Box sx={{ marginLeft: 0.5, backgroundColor: '#F1F5FB' }}>
-            <Stack direction="row">
-              <ChoiceData />
-              <Button sx={styleApp01} variant="contained" onClick={() => setValue('2')}>
-                <b>Выход</b>
-              </Button>
-            </Stack>
-          </Box>
-          <TabPanel value="1">
-            <h1> {points[crossData]} </h1>
-          </TabPanel>
-          <TabPanel value="2">
-            <h1>
-              Выход
-            </h1>
-          </TabPanel>
-        </TabContext>
-      </Box>
+            <Box sx={styleApp02}>
+              <b>{extData}</b>
+            </Box>
+
+            <Button sx={styleApp01} variant="contained" onClick={CloseAll}>
+              <b>Выход</b>
+            </Button>
+          </Stack>
+        </Box>
+        <TabPanel value="1">
+          <Logins />
+        </TabPanel>
+        <TabPanel value="2">
+          <h1>Выход</h1>
+        </TabPanel>
+      </TabContext>
     </>
   );
 };
