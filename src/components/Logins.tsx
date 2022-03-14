@@ -32,7 +32,16 @@ const Logins = () => {
   };
 
   const styleXTG02 = {
-    //borderRight: 1,
+    //borderRadius: 1,
+    borderBottom: 1,
+    borderColor: 'primary.main',
+    padding: 1,
+    textAlign: 'center',
+    backgroundColor: '#C0C0C0',
+  };
+
+  const styleXTG021 = {
+    borderRadius: 1,
     borderBottom: 1,
     borderColor: 'primary.main',
     padding: 1,
@@ -53,13 +62,12 @@ const Logins = () => {
     borderBottom: 1,
     borderColor: 'primary.main',
     padding: 1,
-    //textAlign: 'center',
   };
 
   const HeaderLogins = () => {
     return (
       <Grid item container xs={12}>
-        <Grid item xs={1} sx={styleXTG02}>
+        <Grid item xs={1} sx={styleXTG021}>
           <b>Тип</b>
         </Grid>
         <Grid item xs={1} sx={styleXTG02}>
@@ -74,7 +82,7 @@ const Logins = () => {
         <Grid item xs={1} sx={styleXTG02}>
           <b>Ресурс</b>
         </Grid>
-        <Grid item xs={7} sx={styleXTG02}>
+        <Grid item xs={7} sx={styleXTG021}>
           <b>Сообщение</b>
         </Grid>
       </Grid>
