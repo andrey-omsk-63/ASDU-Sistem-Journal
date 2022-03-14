@@ -24,7 +24,7 @@ import Logins from './components/Logins';
 //   message: string;
 // }
 
-let extData = '00.00.0000';
+let extData = '__.__.____';
 
 const App = () => {
   const styleApp01 = {
@@ -158,7 +158,7 @@ const App = () => {
             <ChoiceData />
 
             <Box sx={styleApp02}>
-              <b>{extData}</b>
+              {extData}
             </Box>
 
             <Button sx={styleApp01} variant="contained" onClick={CloseAll}>
