@@ -131,7 +131,7 @@ const Logins = () => {
     });
   }, [ipAdress]);
 
-  if (isOpen) console.log('points:', points, points[1].message.slice(20, 28));
+  //if (isOpen) console.log('points:', points, points[1].message.slice(20, 28));
 
   return (
     <Box sx={{ fontSize: 12, marginTop: -2.4, marginLeft: -2.5, marginRight: -2.5 }}>
@@ -140,7 +140,7 @@ const Logins = () => {
           <Box sx={{ marginRight: -1.5 }}>
             <Grid container>
               <Grid item xs={12} sx={styleXt04}>
-                <Box>
+                <Box sx={{ borderRadius: 1, backgroundColor: '#C0C0C0' }}>
                   <HeaderLogins />
                 </Box>
                 <Box sx={{ overflowX: 'auto', height: '88vh' }}>{StrokaLogins()}</Box>
