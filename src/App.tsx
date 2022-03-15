@@ -132,15 +132,15 @@ const App = () => {
     );
   };
 
-  const ResetAll = () => {
-    setValue('2');
-    setFlagReset(true);
-  };
+  // const ResetAll = () => {
+  //   setValue('1');
+  //   setFlagReset(true);
+  // };
 
   //const [points, setPoints] = React.useState<Array<InpDate>>([]);
   const [points, setPoints] = React.useState<Array<string>>([]);
   //const [isOpen, setIsOpen] = React.useState(false);
-  const [flagReset, setFlagReset] = React.useState(false);
+  //const [flagReset, setFlagReset] = React.useState(false);
   //let flagReset = false;
   const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
 
@@ -160,21 +160,19 @@ const App = () => {
           <Stack direction="row">
             <ChoiceData />
 
-            <Box sx={styleApp02}>
-              {extData}
-            </Box>
+            <Box sx={styleApp02}>{extData}</Box>
 
-            <Button sx={styleApp01} variant="contained" onClick={ResetAll}>
+            {/* <Button sx={styleApp01} variant="contained" onClick={ResetAll}>
               <b>Сброс настроек</b>
-            </Button>
+            </Button> */}
           </Stack>
         </Box>
         <TabPanel value="1">
-          <Logins data={crossData} reset={flagReset} />
+          {/* <Logins data={crossData} reset={flagReset} setFlag={setFlagReset} /> */}
+          <Logins data={crossData} />
         </TabPanel>
         {/* <TabPanel value="2">
-          <Logins data={crossData} reset={flagReset} />
-          {setFlagReset(false)}
+          <Logins data={crossData} reset={flagReset} setFlag={setFlagReset} />
         </TabPanel> */}
       </TabContext>
     </>

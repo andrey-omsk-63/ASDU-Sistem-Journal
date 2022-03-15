@@ -45,13 +45,22 @@ let formSett = '';
 
 let massPoints: Array<Line> = [];
 
-const Logins = (props: { data: number; reset: boolean; }) => {
-  console.log('reset:', props.reset)
+// const Logins = (props: { data: number; reset: boolean; setFlag: Function }) => {
+const Logins = (props: { data: number }) => {
+  //console.log('reset:', props.reset);
+
   if (oldData !== props.data) {
-    oldData = props.data
+    oldData = props.data;
     flagSbros = true;
     flagMake = true;
   }
+
+  // if (props.reset) {
+  //   oldData = props.data;
+  //   flagSbros = true;
+  //   flagMake = true;
+  //   props.setFlag(false);
+  // }
 
   const styleXt04 = {
     border: 1,
@@ -111,16 +120,6 @@ const Logins = (props: { data: number; reset: boolean; }) => {
     color: 'red',
   };
 
-  const styleServis = {
-    fontSize: 14,
-    marginTop: -2.8,
-    marginLeft: 'auto',
-    marginRight: 0,
-    maxHeight: '21px',
-    minHeight: '21px',
-    width: '4%',
-  };
-
   const styleServisKnop = {
     marginTop: -5.8,
     maxHeight: '21px',
@@ -164,6 +163,28 @@ const Logins = (props: { data: number; reset: boolean; }) => {
     p: 3,
   };
 
+  const styleReset = {
+    fontSize: 14,
+    marginTop: -12,
+    marginLeft: 70,
+    width: '18%',
+    maxHeight: '21px',
+    minHeight: '21px',
+    backgroundColor: '#F1F3F4',
+    color: 'black',
+    textTransform: 'unset !important',
+  };
+
+  const styleServis = {
+    fontSize: 14,
+    marginTop: -5.5,
+    marginLeft: 'auto',
+    marginRight: 0,
+    maxHeight: '21px',
+    minHeight: '21px',
+    width: '4%',
+  };
+
   const HeaderLogins = () => {
     return (
       <Grid item container xs={12}>
@@ -185,12 +206,11 @@ const Logins = (props: { data: number; reset: boolean; }) => {
   };
 
   const TabsLogins = (props: { valueSort: number }) => {
-
+    console.log('props.valueSort', props.valueSort, 'flagSbros:', flagSbros);
     if (flagSbros) {
-      MakeMassPoints()
+      MakeMassPoints();
       flagSbros = false;
     } else {
-      console.log('props.valueSort', props.valueSort)
       switch (props.valueSort) {
         case 1:
           // сортировка по type
@@ -205,13 +225,18 @@ const Logins = (props: { data: number; reset: boolean; }) => {
           let masrab: Array<Line> = [];
 
           for (let i = 0; i < massPoints.length; i++) {
-            if (massPoints[i].info.indexOf(formSett) !== -1) {
-              masrab.push(massPoints[i])
+            let str = massPoints[i].info.toUpperCase();
+            if (str.indexOf(formSett.toUpperCase()) !== -1) {
+              masrab.push(massPoints[i]);
             }
           }
           massPoints = [];
           massPoints = masrab;
           break;
+        default:
+          // сброс
+          MakeMassPoints();
+          formSett = '';
       }
     }
 
@@ -245,7 +270,6 @@ const Logins = (props: { data: number; reset: boolean; }) => {
           </Grid>,
         );
       }
-
       return resStr;
     };
 
@@ -292,12 +316,11 @@ const Logins = (props: { data: number; reset: boolean; }) => {
       massPoints.push(maskPoints[0]);
       flagMake = false;
     }
-  }
+  };
 
   const [points, setPoints] = React.useState<Array<LogDatum>>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   const [value, setValue] = React.useState(2);
-
 
   let maskPoints: Array<Line> = [
     {
@@ -319,7 +342,7 @@ const Logins = (props: { data: number; reset: boolean; }) => {
     });
   }, [ipAdress]);
 
-  if (isOpen && flagMake) MakeMassPoints()
+  if (isOpen && flagMake) MakeMassPoints();
 
   const [openSet, setOpenSet] = React.useState(false);
   const handleOpenSet = () => setOpenSet(true);
@@ -328,9 +351,14 @@ const Logins = (props: { data: number; reset: boolean; }) => {
     if (reason !== 'backdropClick') setOpenSet(false);
   };
 
+  // const setReset = () => {
+  //   //MakeMassPoints();
+  //   setValue(4);
+  // };
+
   const setFind = () => {
-    setOpenSet(false)
-    setValue(3)
+    setOpenSet(false);
+    setValue(3);
   };
 
   const InpForm = () => {
@@ -342,8 +370,8 @@ const Logins = (props: { data: number; reset: boolean; }) => {
     };
 
     const handleKey = (event: any) => {
-      if (event.key === "Enter") event.preventDefault()
-    }
+      if (event.key === 'Enter') event.preventDefault();
+    };
 
     return (
       <TextField
@@ -351,7 +379,7 @@ const Logins = (props: { data: number; reset: boolean; }) => {
         onKeyPress={handleKey}
         label="Поиск"
         value={valuen}
-        onChange={handleChange}  //отключение Enter
+        onChange={handleChange} //отключение Enter
         variant="outlined"
       />
     );
@@ -359,6 +387,9 @@ const Logins = (props: { data: number; reset: boolean; }) => {
 
   return (
     <Box>
+      <Button sx={styleReset} variant="contained" onClick={() => setValue(4)}>
+        <b>Сброс настроек</b>
+      </Button>
       <Box sx={styleServis}>
         <Button sx={styleServisKnop} onClick={handleOpenSet}>
           <b>Поиск</b>
