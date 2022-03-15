@@ -3,6 +3,8 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Modal from '@mui/material/Modal';
 
 //import Tabs from '@mui/material/Tabs';
 //import Tab from '@mui/material/Tab';
@@ -34,8 +36,6 @@ export interface Line {
   haveError: boolean;
 }
 
-let flagOutput = true;
-
 const Logins = () => {
   const styleXt04 = {
     border: 1,
@@ -47,10 +47,8 @@ const Logins = () => {
   };
 
   const styleXTG02 = {
-    //borderRadius: 1,
     borderBottom: 1,
     borderColor: 'primary.main',
-    //padding: 1,
     textAlign: 'center',
     backgroundColor: '#C0C0C0',
   };
@@ -59,7 +57,6 @@ const Logins = () => {
     borderRadius: 1,
     borderBottom: 1,
     borderColor: 'primary.main',
-    //padding: 1,
     textAlign: 'center',
     backgroundColor: '#C0C0C0',
   };
@@ -116,6 +113,15 @@ const Logins = () => {
     textTransform: 'unset !important',
   };
 
+  const styleInpKnop = {
+    color: 'black',
+    marginTop: 1,
+    maxHeight: '21px',
+    minHeight: '21px',
+    backgroundColor: '#F1F3F4',
+    textTransform: 'unset !important',
+  };
+
   const styleBut01 = {
     fontSize: 12,
     marginRight: 0.5,
@@ -127,30 +133,33 @@ const Logins = () => {
     textTransform: 'unset !important',
   };
 
-  const SortType = () => {
-    // сортировка по type
-    console.log('massPoints:', massPoints);
-
-    massPoints.sort((a, b) => a.num - b.num);
-
-    console.log('massPoints_:', massPoints);
-    flagOutput = true;
-    
-  }
+  const styleSet = {
+    position: 'absolute',
+    top: '14%',
+    right: '-9%',
+    transform: 'translate(-50%, -50%)',
+    width: 360,
+    bgcolor: 'background.paper',
+    borderColor: 'primary.main',
+    border: '3px solid #000',
+    borderRadius: 2,
+    boxShadow: 24,
+    textAlign: 'center',
+    p: 3,
+  };
 
   const HeaderLogins = () => {
     return (
       <Grid item container xs={12}>
         <Grid item xs={1.5} sx={styleXTG021}>
-          <Button sx={styleBut01} onClick={SortType}>
+          <Button sx={styleBut01} variant="contained" onClick={() => setValue(1)}>
             <b>Тип</b>
           </Button>
         </Grid>
         <Grid item xs={1} sx={styleXTG02}>
-          <Button sx={styleBut01}>
+          <Button sx={styleBut01} variant="contained" onClick={() => setValue(2)}>
             <b>Время</b>
           </Button>
-
         </Grid>
         <Grid item xs={9.5} sx={styleXTG021}>
           <b>Сообщение</b>
@@ -159,34 +168,57 @@ const Logins = () => {
     );
   };
 
-  const StrokaLogins = (flag: boolean) => {
-    let resStr = [];
-    // let typeMess = '';
-
-    for (let i = 0; i < points.length; i++) {
-      resStr.push(
-        <Grid key={Math.random()} item container xs={12}>
-          <Grid key={Math.random()} item xs={1.5} sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}>
-            <b>{massPoints[i].type}</b>
-          </Grid>
-          <Grid key={Math.random()} item xs={1} sx={massPoints[i].haveError ? styleXTG033 : styleXTG03}>
-            <b>{massPoints[i].time}</b>
-          </Grid>
-          <Grid key={Math.random()} item xs={9.5} sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}>
-            <b>{massPoints[i].info}</b>
-          </Grid>
-        </Grid>,
-      );
+  const TabsLogins = (props: { valueSort: number }) => {
+    if (props.valueSort !== 1) {
+      // сортировка по time
+      massPoints = massPointsEt;
+    } else {
+      // сортировка по type
+      massPoints.sort((a, b) => a.num - b.num);
     }
-    flagOutput = false;
 
-    return resStr;
+    const StrokaLogins = () => {
+      let resStr = [];
+
+      for (let i = 0; i < massPoints.length; i++) {
+        resStr.push(
+          <Grid key={Math.random()} item container xs={12}>
+            <Grid
+              key={Math.random()}
+              item
+              xs={1.5}
+              sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}>
+              <b>{massPoints[i].type}</b>
+            </Grid>
+            <Grid
+              key={Math.random()}
+              item
+              xs={1}
+              sx={massPoints[i].haveError ? styleXTG033 : styleXTG03}>
+              <b>{massPoints[i].time}</b>
+            </Grid>
+            <Grid
+              key={Math.random()}
+              item
+              xs={9.5}
+              sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}>
+              <b>{massPoints[i].info}</b>
+            </Grid>
+          </Grid>,
+        );
+      }
+
+      return resStr;
+    };
+
+    return <Box sx={{ overflowX: 'auto', height: '88vh' }}>{StrokaLogins()}</Box>;
   };
 
   const [points, setPoints] = React.useState<Array<LogDatum>>([]);
   const [isOpen, setIsOpen] = React.useState(false);
-  //let points: Array<LogDatum> = [];
+  const [value, setValue] = React.useState(2);
   let massPoints: Array<Line> = [];
+  let massPointsEt: Array<Line> = [];
   let maskPoints: Array<Line> = [
     {
       num: 0,
@@ -194,7 +226,7 @@ const Logins = () => {
       time: '',
       info: '',
       haveError: false,
-    }
+    },
   ];
 
   const ipAdress: string = 'http://localhost:3000/otlmess.json';
@@ -216,7 +248,7 @@ const Logins = () => {
           time: '',
           info: '',
           haveError: false,
-        }
+        },
       ];
       switch (points[i].message.slice(0, 1)) {
         case 'I':
@@ -240,18 +272,63 @@ const Logins = () => {
           maskPoints[0].num = 3;
       }
       maskPoints[0].time = points[i].message.slice(20, 28);
-      maskPoints[0].info = points[i].message.slice(29)
+      maskPoints[0].info = points[i].message.slice(29);
 
-      massPoints.push(maskPoints[0])
+      massPoints.push(maskPoints[0]);
     }
+    massPointsEt = massPoints;
   }
+
+  let formSett = '';
+  const [openSet, setOpenSet] = React.useState(false);
+  const handleOpenSet = () => setOpenSet(true);
+  const handleCloseSet = (event: any, reason: string) => {
+    if (reason !== 'backdropClick') setOpenSet(false);
+  };
+
+  const InpForm = () => {
+    const [valuen, setValuen] = React.useState(formSett);
+    const handleChange = (event: any) => {
+      setValuen(event.target.value);
+      formSett = event.target.value;
+    };
+
+    return (
+      <TextField
+        size="small"
+        label="Поиск"
+        value={valuen}
+        onChange={handleChange}
+        variant="outlined"
+      />
+    );
+  };
 
   return (
     <Box>
       <Box sx={styleServis}>
-        <Button sx={styleServisKnop}>
-          <b>Сервис</b>
+        <Button sx={styleServisKnop} onClick={handleOpenSet}>
+          <b>Поиск</b>
         </Button>
+        <Modal
+          open={openSet}
+          disableEnforceFocus
+          onClose={handleCloseSet}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description">
+          <Box sx={styleSet}>
+            <Box
+              component="form"
+              sx={{ '& > :not(style)': { m: 1, width: '40ch' } }}
+              noValidate
+              autoComplete="off">
+              <InpForm />
+            </Box>
+            <Button sx={styleInpKnop} variant="contained" onClick={() => setOpenSet(false)}>
+              <b>Найти</b>
+            </Button>
+          </Box>
+        </Modal>
       </Box>
 
       <Box sx={{ fontSize: 12, marginTop: -2.4, marginLeft: -2.5, marginRight: -2.5 }}>
@@ -263,19 +340,7 @@ const Logins = () => {
                   <Box sx={{ borderRadius: 1, backgroundColor: '#C0C0C0' }}>
                     <HeaderLogins />
                   </Box>
-                  <Box sx={{ overflowX: 'auto', height: '88vh' }}>
-                    <>
-                      {isOpen && (
-                        <>
-                          {flagOutput && (
-                            <>
-                              {StrokaLogins(flagOutput)}
-                            </>
-                          )}
-                        </>
-                      )}
-                    </>
-                  </Box>
+                  <>{isOpen && <TabsLogins valueSort={value} />}</>
                 </Grid>
               </Grid>
             </Box>
@@ -283,7 +348,6 @@ const Logins = () => {
         </Grid>
       </Box>
     </Box>
-
   );
 };
 
