@@ -12,6 +12,7 @@ import Modal from '@mui/material/Modal';
 //import PointsMenuLevel1 from './PointsMenuLevel1';
 
 import axios from 'axios';
+//import { InputAdornment } from '@mui/material';
 
 //import { XctrlInfo } from '../../interfaceGl.d';
 
@@ -30,13 +31,28 @@ export interface DataMess {
 
 export interface Line {
   num: number;
+  pnum: number;
   type: string;
   time: string;
   info: string;
   haveError: boolean;
 }
 
-const Logins = () => {
+let flagSbros = true;
+let flagMake = true;
+let oldData = -1;
+let formSett = '';
+
+let massPoints: Array<Line> = [];
+
+const Logins = (props: { data: number; reset: boolean; }) => {
+  console.log('reset:', props.reset)
+  if (oldData !== props.data) {
+    oldData = props.data
+    flagSbros = true;
+    flagMake = true;
+  }
+
   const styleXt04 = {
     border: 1,
     borderRadius: 2,
@@ -169,12 +185,34 @@ const Logins = () => {
   };
 
   const TabsLogins = (props: { valueSort: number }) => {
-    if (props.valueSort !== 1) {
-      // сортировка по time
-      massPoints = massPointsEt;
+
+    if (flagSbros) {
+      MakeMassPoints()
+      flagSbros = false;
     } else {
-      // сортировка по type
-      massPoints.sort((a, b) => a.num - b.num);
+      console.log('props.valueSort', props.valueSort)
+      switch (props.valueSort) {
+        case 1:
+          // сортировка по type
+          massPoints.sort((a, b) => a.num - b.num);
+          break;
+        case 2:
+          // сортировка по time
+          massPoints.sort((a, b) => a.pnum - b.pnum);
+          break;
+        case 3:
+          // поиск в сообщениях
+          let masrab: Array<Line> = [];
+
+          for (let i = 0; i < massPoints.length; i++) {
+            if (massPoints[i].info.indexOf(formSett) !== -1) {
+              masrab.push(massPoints[i])
+            }
+          }
+          massPoints = [];
+          massPoints = masrab;
+          break;
+      }
     }
 
     const StrokaLogins = () => {
@@ -214,36 +252,13 @@ const Logins = () => {
     return <Box sx={{ overflowX: 'auto', height: '88vh' }}>{StrokaLogins()}</Box>;
   };
 
-  const [points, setPoints] = React.useState<Array<LogDatum>>([]);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [value, setValue] = React.useState(2);
-  let massPoints: Array<Line> = [];
-  let massPointsEt: Array<Line> = [];
-  let maskPoints: Array<Line> = [
-    {
-      num: 0,
-      type: '',
-      time: '',
-      info: '',
-      haveError: false,
-    },
-  ];
-
-  const ipAdress: string = 'http://localhost:3000/otlmess.json';
-
-  React.useEffect(() => {
-    axios.get(ipAdress).then(({ data }) => {
-      setPoints(data.logData);
-      setIsOpen(true);
-    });
-  }, [ipAdress]);
-
-  if (isOpen) {
-    //console.log('points:', points, points[1].message.slice(0, 1));
+  const MakeMassPoints = () => {
+    massPoints = [];
     for (let i = 0; i < points.length; i++) {
       maskPoints = [
         {
           num: 0,
+          pnum: i,
           type: '',
           time: '',
           info: '',
@@ -275,30 +290,68 @@ const Logins = () => {
       maskPoints[0].info = points[i].message.slice(29);
 
       massPoints.push(maskPoints[0]);
+      flagMake = false;
     }
-    massPointsEt = massPoints;
   }
 
-  let formSett = '';
+  const [points, setPoints] = React.useState<Array<LogDatum>>([]);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [value, setValue] = React.useState(2);
+
+
+  let maskPoints: Array<Line> = [
+    {
+      num: 0,
+      pnum: 0,
+      type: '',
+      time: '',
+      info: '',
+      haveError: false,
+    },
+  ];
+
+  const ipAdress: string = 'http://localhost:3000/otlmess.json';
+
+  React.useEffect(() => {
+    axios.get(ipAdress).then(({ data }) => {
+      setPoints(data.logData);
+      setIsOpen(true);
+    });
+  }, [ipAdress]);
+
+  if (isOpen && flagMake) MakeMassPoints()
+
   const [openSet, setOpenSet] = React.useState(false);
   const handleOpenSet = () => setOpenSet(true);
+
   const handleCloseSet = (event: any, reason: string) => {
     if (reason !== 'backdropClick') setOpenSet(false);
   };
 
+  const setFind = () => {
+    setOpenSet(false)
+    setValue(3)
+  };
+
   const InpForm = () => {
     const [valuen, setValuen] = React.useState(formSett);
+
     const handleChange = (event: any) => {
       setValuen(event.target.value);
       formSett = event.target.value;
     };
 
+    const handleKey = (event: any) => {
+      if (event.key === "Enter") event.preventDefault()
+    }
+
     return (
       <TextField
         size="small"
+        onKeyPress={handleKey}
         label="Поиск"
         value={valuen}
-        onChange={handleChange}
+        onChange={handleChange}  //отключение Enter
         variant="outlined"
       />
     );
@@ -324,7 +377,7 @@ const Logins = () => {
               autoComplete="off">
               <InpForm />
             </Box>
-            <Button sx={styleInpKnop} variant="contained" onClick={() => setOpenSet(false)}>
+            <Button sx={styleInpKnop} variant="contained" onClick={setFind}>
               <b>Найти</b>
             </Button>
           </Box>

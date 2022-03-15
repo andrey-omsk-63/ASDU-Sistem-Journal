@@ -132,19 +132,22 @@ const App = () => {
     );
   };
 
-  const CloseAll = () => {
-    window.close();
+  const ResetAll = () => {
+    setValue('2');
+    setFlagReset(true);
   };
 
   //const [points, setPoints] = React.useState<Array<InpDate>>([]);
   const [points, setPoints] = React.useState<Array<string>>([]);
-  const [isOpen, setIsOpen] = React.useState(false);
+  //const [isOpen, setIsOpen] = React.useState(false);
+  const [flagReset, setFlagReset] = React.useState(false);
+  //let flagReset = false;
   const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
 
   React.useEffect(() => {
     axios.get(ipAdress).then(({ data }) => {
       setPoints(data.fileNames);
-      setIsOpen(true);
+      //setIsOpen(true);
     });
   }, [ipAdress]);
 
@@ -161,17 +164,18 @@ const App = () => {
               {extData}
             </Box>
 
-            <Button sx={styleApp01} variant="contained" onClick={CloseAll}>
-              <b>Выход</b>
+            <Button sx={styleApp01} variant="contained" onClick={ResetAll}>
+              <b>Сброс настроек</b>
             </Button>
           </Stack>
         </Box>
         <TabPanel value="1">
-          <Logins />
+          <Logins data={crossData} reset={flagReset} />
         </TabPanel>
-        <TabPanel value="2">
-          <h1>Выход</h1>
-        </TabPanel>
+        {/* <TabPanel value="2">
+          <Logins data={crossData} reset={flagReset} />
+          {setFlagReset(false)}
+        </TabPanel> */}
       </TabContext>
     </>
   );
