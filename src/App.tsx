@@ -9,20 +9,6 @@ import Modal from '@mui/material/Modal';
 import axios from 'axios';
 
 import Logins from './components/Logins';
-//import Management from './components/Management/Management';
-//import Points from './components/Points/Points';
-//import Statistics from './components/Statistics/Statistics';
-
-//import { Tflight } from './interfaceMNG.d';
-
-//import { XctrlInfo } from './interfaceGl.d';
-
-//import { Statistic } from './interfaceStat.d';
-
-// export interface InpDate {
-//   fileNames: string[];
-//   message: string;
-// }
 
 let extData = '__.__.____';
 
@@ -132,24 +118,15 @@ const App = () => {
     );
   };
 
-  //const [points, setPoints] = React.useState<Array<InpDate>>([]);
   const [points, setPoints] = React.useState<Array<string>>([]);
-  //const [isOpen, setIsOpen] = React.useState(false);
-  //const [flagReset, setFlagReset] = React.useState(false);
-  //let flagReset = false;
   //const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
   const ipAdress = window.location.href;
 
   React.useEffect(() => {
-    //axios.get(ipAdress).then(({ data }) => {
     axios.post(ipAdress).then(({ data }) => {
       setPoints(data.fileNames);
-      //console.log('data:', data)
-      //setIsOpen(true);
     });
   }, [ipAdress]);
-
-  //console.log('points:', points)
 
   const [value, setValue] = React.useState('0');
 
@@ -159,21 +136,15 @@ const App = () => {
         <Box sx={{ marginLeft: 0.5, marginTop: 0.5 }}>
           <Stack direction="row">
             <ChoiceData />
-
             <Box sx={styleApp02}>{extData}</Box>
-
             {/* <Button sx={styleApp01} variant="contained" onClick={ResetAll}>
               <b>Сброс настроек</b>
             </Button> */}
           </Stack>
         </Box>
         <TabPanel value="1">
-          {/* <Logins data={crossData} reset={flagReset} setFlag={setFlagReset} /> */}
           <Logins logName={points[crossData]} />
         </TabPanel>
-        {/* <TabPanel value="2">
-          <Logins data={crossData} reset={flagReset} setFlag={setFlagReset} />
-        </TabPanel> */}
       </TabContext>
     </>
   );

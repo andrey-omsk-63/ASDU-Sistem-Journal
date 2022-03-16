@@ -39,7 +39,7 @@ export interface Line {
 }
 
 let flagSbros = true;
-let flagMake = true;
+
 let oldData = '-1';
 let formSett = '';
 
@@ -51,15 +51,7 @@ const Logins = (props: { logName: string }) => {
   if (oldData !== props.logName) {
     oldData = props.logName;
     flagSbros = true;
-    flagMake = true;
   }
-
-  // if (props.reset) {
-  //   oldData = props.data;
-  //   flagSbros = true;
-  //   flagMake = true;
-  //   props.setFlag(false);
-  // }
 
   const styleXt04 = {
     border: 1,
@@ -205,7 +197,6 @@ const Logins = (props: { logName: string }) => {
   };
 
   const TabsLogins = (props: { valueSort: number }) => {
-    //console.log('props.valueSort', props.valueSort, 'flagSbros:', flagSbros);
     if (flagSbros) {
       MakeMassPoints();
       flagSbros = false;
@@ -314,7 +305,7 @@ const Logins = (props: { logName: string }) => {
 
       massPoints.push(maskPoints[0]);
       setIsRead(false);
-      flagMake = false;
+      //flagMake = false;
     }
   };
 
@@ -335,18 +326,18 @@ const Logins = (props: { logName: string }) => {
   ];
 
   //const ipAdress: string = 'http://localhost:3000/otlmess.json';
-  const ipAdress: string = window.location.href+'/info?fileName='+props.logName;
+  const ipAdress: string = window.location.href + '/info?fileName=' + props.logName;
 
   React.useEffect(() => {
     axios.get(ipAdress).then(({ data }) => {
-      console.log('data:', data)
+      console.log('data:', data);
       setPoints(data.logData);
       setIsOpen(true);
       setIsRead(true);
     });
   }, [ipAdress]);
 
-  console.log('points:', points)
+  //console.log('points:', points);
 
   if (isOpen && isRead) MakeMassPoints();
 
