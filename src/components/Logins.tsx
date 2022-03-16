@@ -40,17 +40,16 @@ export interface Line {
 
 let flagSbros = true;
 let flagMake = true;
-let oldData = -1;
+let oldData = '-1';
 let formSett = '';
 
 let massPoints: Array<Line> = [];
 
-// const Logins = (props: { data: number; reset: boolean; setFlag: Function }) => {
-const Logins = (props: { data: number }) => {
-  //console.log('reset:', props.reset);
+const Logins = (props: { logName: string }) => {
+  console.log('logName:', props.logName);
 
-  if (oldData !== props.data) {
-    oldData = props.data;
+  if (oldData !== props.logName) {
+    oldData = props.logName;
     flagSbros = true;
     flagMake = true;
   }
@@ -166,7 +165,7 @@ const Logins = (props: { data: number }) => {
   const styleReset = {
     fontSize: 14,
     marginTop: -12,
-    marginLeft: 70,
+    marginLeft: 72,
     width: '18%',
     maxHeight: '21px',
     minHeight: '21px',
@@ -206,7 +205,7 @@ const Logins = (props: { data: number }) => {
   };
 
   const TabsLogins = (props: { valueSort: number }) => {
-    console.log('props.valueSort', props.valueSort, 'flagSbros:', flagSbros);
+    //console.log('props.valueSort', props.valueSort, 'flagSbros:', flagSbros);
     if (flagSbros) {
       MakeMassPoints();
       flagSbros = false;
@@ -314,12 +313,14 @@ const Logins = (props: { data: number }) => {
       maskPoints[0].info = points[i].message.slice(29);
 
       massPoints.push(maskPoints[0]);
+      setIsRead(false);
       flagMake = false;
     }
   };
 
   const [points, setPoints] = React.useState<Array<LogDatum>>([]);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isRead, setIsRead] = React.useState(false);
   const [value, setValue] = React.useState(2);
 
   let maskPoints: Array<Line> = [
@@ -333,16 +334,21 @@ const Logins = (props: { data: number }) => {
     },
   ];
 
-  const ipAdress: string = 'http://localhost:3000/otlmess.json';
+  //const ipAdress: string = 'http://localhost:3000/otlmess.json';
+  const ipAdress: string = window.location.href+'/info?fileName='+props.logName;
 
   React.useEffect(() => {
     axios.get(ipAdress).then(({ data }) => {
+      console.log('data:', data)
       setPoints(data.logData);
       setIsOpen(true);
+      setIsRead(true);
     });
   }, [ipAdress]);
 
-  if (isOpen && flagMake) MakeMassPoints();
+  console.log('points:', points)
+
+  if (isOpen && isRead) MakeMassPoints();
 
   const [openSet, setOpenSet] = React.useState(false);
   const handleOpenSet = () => setOpenSet(true);
@@ -350,11 +356,6 @@ const Logins = (props: { data: number }) => {
   const handleCloseSet = (event: any, reason: string) => {
     if (reason !== 'backdropClick') setOpenSet(false);
   };
-
-  // const setReset = () => {
-  //   //MakeMassPoints();
-  //   setValue(4);
-  // };
 
   const setFind = () => {
     setOpenSet(false);

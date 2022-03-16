@@ -132,24 +132,25 @@ const App = () => {
     );
   };
 
-  // const ResetAll = () => {
-  //   setValue('1');
-  //   setFlagReset(true);
-  // };
 
   //const [points, setPoints] = React.useState<Array<InpDate>>([]);
   const [points, setPoints] = React.useState<Array<string>>([]);
   //const [isOpen, setIsOpen] = React.useState(false);
   //const [flagReset, setFlagReset] = React.useState(false);
   //let flagReset = false;
-  const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
+  //const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
+  const ipAdress = window.location.href
 
   React.useEffect(() => {
-    axios.get(ipAdress).then(({ data }) => {
+    //axios.get(ipAdress).then(({ data }) => {
+    axios.post(ipAdress).then(({ data }) => {
       setPoints(data.fileNames);
+      //console.log('data:', data)
       //setIsOpen(true);
     });
   }, [ipAdress]);
+
+  //console.log('points:', points)
 
   const [value, setValue] = React.useState('0');
 
@@ -169,7 +170,7 @@ const App = () => {
         </Box>
         <TabPanel value="1">
           {/* <Logins data={crossData} reset={flagReset} setFlag={setFlagReset} /> */}
-          <Logins data={crossData} />
+          <Logins logName={points[crossData]} />
         </TabPanel>
         {/* <TabPanel value="2">
           <Logins data={crossData} reset={flagReset} setFlag={setFlagReset} />
