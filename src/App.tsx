@@ -132,14 +132,13 @@ const App = () => {
     );
   };
 
-
   //const [points, setPoints] = React.useState<Array<InpDate>>([]);
   const [points, setPoints] = React.useState<Array<string>>([]);
   //const [isOpen, setIsOpen] = React.useState(false);
   //const [flagReset, setFlagReset] = React.useState(false);
   //let flagReset = false;
   //const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
-  const ipAdress = window.location.href
+  const ipAdress = window.location.href;
 
   React.useEffect(() => {
     //axios.get(ipAdress).then(({ data }) => {
