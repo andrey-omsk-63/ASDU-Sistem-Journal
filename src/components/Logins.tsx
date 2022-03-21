@@ -6,15 +6,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
 
-//import Tabs from '@mui/material/Tabs';
-//import Tab from '@mui/material/Tab';
-
-//import PointsMenuLevel1 from './PointsMenuLevel1';
-
 import axios from 'axios';
-//import { InputAdornment } from '@mui/material';
-
-//import { XctrlInfo } from '../../interfaceGl.d';
 
 export interface LogMessage {
   logData: LogDatum[];
@@ -46,7 +38,7 @@ let formSett = '';
 let massPoints: Array<Line> = [];
 
 const Logins = (props: { logName: string }) => {
-  console.log('logName:', props.logName);
+  //console.log('logName:', props.logName);
 
   if (oldData !== props.logName) {
     oldData = props.logName;
@@ -111,14 +103,6 @@ const Logins = (props: { logName: string }) => {
     color: 'red',
   };
 
-  const styleServisKnop = {
-    marginTop: -5.8,
-    maxHeight: '21px',
-    minHeight: '21px',
-    backgroundColor: '#F1F3F4',
-    textTransform: 'unset !important',
-  };
-
   const styleInpKnop = {
     color: 'black',
     marginTop: 1,
@@ -175,6 +159,16 @@ const Logins = (props: { logName: string }) => {
     minHeight: '21px',
     width: '4%',
   };
+
+  const styleServisKnop = {
+    marginTop: -5.8,
+    maxHeight: '21px',
+    minHeight: '21px',
+    backgroundColor: '#F1F3F4',
+    color: 'blue',
+    textTransform: 'unset !important',
+  };
+
 
   const HeaderLogins = () => {
     return (
@@ -383,15 +377,10 @@ const Logins = (props: { logName: string }) => {
         <b>Сброс настроек</b>
       </Button>
       <Box sx={styleServis}>
-        <Button sx={styleServisKnop} onClick={handleOpenSet}>
+        <Button sx={styleServisKnop} variant="contained" onClick={handleOpenSet}>
           <b>Поиск</b>
         </Button>
-        <Modal
-          open={openSet}
-          disableEnforceFocus
-          onClose={handleCloseSet}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description">
+        <Modal open={openSet} disableEnforceFocus onClose={handleCloseSet}>
           <Box sx={styleSet}>
             <Box
               component="form"

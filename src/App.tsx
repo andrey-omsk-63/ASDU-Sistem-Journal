@@ -54,6 +54,7 @@ const App = () => {
     width: 150,
     bgcolor: 'background.paper',
     border: '2px solid #000',
+    borderColor: 'primary.main',
     borderRadius: 2,
     boxShadow: 24,
     p: 3,
@@ -106,10 +107,7 @@ const App = () => {
         <Button sx={styleApp01} variant="contained" onClick={handleOpen}>
           <b>Выбор по дате</b>
         </Button>
-        <Modal
-          open={open}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description">
+        <Modal open={open}>
           <Box sx={styleModal}>
             <Stack direction="column">{SpisData()}</Stack>
           </Box>
