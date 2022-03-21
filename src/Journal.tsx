@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -8,15 +9,17 @@ import Modal from '@mui/material/Modal';
 
 import axios from 'axios';
 
-import Logins from './components/Logins';
+import JournalLogins from './JournalComponents/JournalLogins';
 
 let extData = '__.__.____';
 
-const App = () => {
+const Journal = () => {
   const styleApp01 = {
     fontSize: 14,
     marginRight: 0.5,
-    width: '18%',
+    //width: '25%',
+    maxWidth: '21vh',
+    minWidth: '21vh',
     maxHeight: '21px',
     minHeight: '21px',
     backgroundColor: '#F1F3F4',
@@ -36,30 +39,6 @@ const App = () => {
     textAlign: 'center',
   };
 
-  // const styleModalMenu = {
-  //   fontSize: 13.9,
-  //   maxHeight: '20px',
-  //   minHeight: '20px',
-  //   backgroundColor: '#F1F3F4',
-  //   color: 'black',
-  //   marginRight: 1,
-  //   textTransform: 'unset !important',
-  // };
-
-  // const styleModal = {
-  //   position: 'relative',
-  //   bottom: '-45vh',
-  //   marginLeft: '60vh',
-  //   transform: 'translate(-50%, -50%)',
-  //   width: 150,
-  //   bgcolor: 'background.paper',
-  //   border: '2px solid #000',
-  //   borderColor: 'primary.main',
-  //   borderRadius: 2,
-  //   boxShadow: 24,
-  //   p: 3,
-  // };
-
   const styleModalMenu = {
     fontSize: 13.9,
     maxHeight: '20px',
@@ -75,6 +54,8 @@ const App = () => {
     position: 'relative',
     bottom: '-48vh',
     marginLeft: '60vh',
+    //marginBottom: 1,
+
     transform: 'translate(-50%, -50%)',
     width: 150,
     bgcolor: 'background.paper',
@@ -162,11 +143,12 @@ const App = () => {
 
   const [points, setPoints] = React.useState<Array<string>>([]);
   const [isOpen, setIsOpen] = React.useState(false);
-  //const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
-  const ipAdress = window.location.href;
+  const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
+  //const ipAdress = window.location.href;
 
   React.useEffect(() => {
-    axios.post(ipAdress).then(({ data }) => {
+    // axios.post(ipAdress).then(({ data }) => {
+    axios.get(ipAdress).then(({ data }) => {
       setPoints(data.fileNames);
       setIsOpen(true);
     });
@@ -175,7 +157,7 @@ const App = () => {
   const [value, setValue] = React.useState('0');
 
   return (
-    <>
+    <Box sx={{ marginTop: -3, marginLeft: -3, marginRight: -3, height: '85.5vh' }}>
       <TabContext value={value}>
         <Box sx={{ marginLeft: 0.5, marginTop: 0.5 }}>
           <Stack direction="row">
@@ -184,11 +166,11 @@ const App = () => {
           </Stack>
         </Box>
         <TabPanel value="1">
-          <Logins logName={points[crossData]} />
+          <JournalLogins logName={points[crossData]} />
         </TabPanel>
       </TabContext>
-    </>
+    </Box>
   );
 };
 
-export default App;
+export default Journal;
