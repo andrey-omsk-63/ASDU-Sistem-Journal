@@ -36,30 +36,6 @@ const App = () => {
     textAlign: 'center',
   };
 
-  // const styleModalMenu = {
-  //   fontSize: 13.9,
-  //   maxHeight: '20px',
-  //   minHeight: '20px',
-  //   backgroundColor: '#F1F3F4',
-  //   color: 'black',
-  //   marginRight: 1,
-  //   textTransform: 'unset !important',
-  // };
-
-  // const styleModal = {
-  //   position: 'relative',
-  //   bottom: '-45vh',
-  //   marginLeft: '60vh',
-  //   transform: 'translate(-50%, -50%)',
-  //   width: 150,
-  //   bgcolor: 'background.paper',
-  //   border: '2px solid #000',
-  //   borderColor: 'primary.main',
-  //   borderRadius: 2,
-  //   boxShadow: 24,
-  //   p: 3,
-  // };
-
   const styleModalMenu = {
     fontSize: 13.9,
     maxHeight: '20px',
@@ -92,6 +68,7 @@ const App = () => {
     maxHeight: '16px',
     minHeight: '16px',
     backgroundColor: 'fff',
+    color: 'black',
     top: '0.5%',
     left: '88%',
     fontSize: 15,
@@ -123,7 +100,7 @@ const App = () => {
 
     resStr.push(
       <Button key={777} sx={styleModalEnd} onClick={() => handleClose(777)}>
-        &#10060;
+        <b>&#10006;</b>
       </Button>,
     );
     if (isOpen) {
