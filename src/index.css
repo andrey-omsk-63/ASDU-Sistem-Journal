@@ -4,7 +4,11 @@ body {
   height: 99%;
   width: 99%;
   /* background-color: #024492; */
-  background: linear-gradient(45deg, #eecfba, #024492 90%);
+  /* background: linear-gradient(45deg, #eecfba, #024492 90%); */
+  background: linear-gradient(45deg, #eecfba 45%, #0384cf 90%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
   /* background: 'linear-gradient(45deg, #FFC0C0 45%, #0384CF 90%)', */
   /* background: url(./imagJournal.jpg);
 
