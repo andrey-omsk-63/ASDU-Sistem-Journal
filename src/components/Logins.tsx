@@ -211,16 +211,10 @@ const Logins = (props: { logName: string }) => {
     });
   }, [ipAdress]);
 
-  //console.log('points:', points);
-
   if (isOpen && isRead) MakeMassPoints();
 
   const [openSet, setOpenSet] = React.useState(false);
-
-  const handleOpenSet = () => {
-    setOpenSet(true);
-    setValue(21);
-  };
+  const handleOpenSet = () => setOpenSet(true);
 
   const handleCloseSet = (event: any, reason: string) => {
     if (reason !== 'backdropClick') setOpenSet(false);
