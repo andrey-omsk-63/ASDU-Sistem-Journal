@@ -10,7 +10,8 @@ import axios from 'axios';
 
 import { styleXt04, styleXTG02, styleXTG021, styleXTG03, styleXTG033 } from './LoginsStyle';
 import { styleXTG04, styleXTG044, styleInpKnop, styleBut01, styleSet } from './LoginsStyle';
-import { styleReset, styleServis, styleServisKnop } from './LoginsStyle';
+import { styleReset, styleServis, styleServisKnop,  } from './LoginsStyle';
+
 
 export interface LogMessage {
   logData: LogDatum[];
@@ -49,8 +50,6 @@ const Logins = (props: { logName: string }) => {
     flagSbros = true;
   }
 
-  let resStr: any = [];
-
   const HeaderLogins = () => {
     return (
       <Grid item container xs={12}>
@@ -71,45 +70,16 @@ const Logins = (props: { logName: string }) => {
     );
   };
 
-  const StrokaLogins = () => {
-    resStr = [];
-
-    for (let i = 0; i < massPoints.length; i++) {
-      resStr.push(
-        <Grid key={Math.random()} item container xs={12}>
-          <Grid
-            key={Math.random()}
-            item
-            xs={1.5}
-            sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}>
-            <b>{massPoints[i].type}</b>
-          </Grid>
-          <Grid
-            key={Math.random()}
-            item
-            xs={1}
-            sx={massPoints[i].haveError ? styleXTG033 : styleXTG03}>
-            <b>{massPoints[i].time}</b>
-          </Grid>
-          <Grid
-            key={Math.random()}
-            item
-            xs={9.5}
-            sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}>
-            <b>{massPoints[i].info}</b>
-          </Grid>
-        </Grid>,
-      );
-    }
-    return resStr;
-  };
-
-  const TabsLogins = (valueSort: number) => {
+  const TabsLogins = (props: { valueSort: number }) => {
+    console.log('!!!:',flagSbros, props.valueSort)
     if (flagSbros) {
       MakeMassPoints();
       flagSbros = false;
     } else {
-      switch (valueSort) {
+      switch (props.valueSort) {
+        // ничего не делать
+        case 21:
+          break;
         case 1:
           // сортировка по type
           massPoints.sort((a, b) => a.num - b.num);
@@ -137,7 +107,41 @@ const Logins = (props: { logName: string }) => {
           formSett = '';
       }
     }
-    //return <Box sx={{ overflowX: 'auto', height: '88vh' }}>{StrokaLogins()}</Box>;
+
+    const StrokaLogins = () => {
+      let resStr = [];
+
+      for (let i = 0; i < massPoints.length; i++) {
+        resStr.push(
+          <Grid key={Math.random()} item container xs={12}>
+            <Grid
+              key={Math.random()}
+              item
+              xs={1.5}
+              sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}>
+              <b>{massPoints[i].type}</b>
+            </Grid>
+            <Grid
+              key={Math.random()}
+              item
+              xs={1}
+              sx={massPoints[i].haveError ? styleXTG033 : styleXTG03}>
+              <b>{massPoints[i].time}</b>
+            </Grid>
+            <Grid
+              key={Math.random()}
+              item
+              xs={9.5}
+              sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}>
+              <b>{massPoints[i].info}</b>
+            </Grid>
+          </Grid>,
+        );
+      }
+      return resStr;
+    };
+
+    return <Box sx={{ overflowX: 'auto', height: '88vh' }}>{StrokaLogins()}</Box>;
   };
 
   const MakeMassPoints = () => {
@@ -220,7 +224,7 @@ const Logins = (props: { logName: string }) => {
   const handleOpenSet = () => {
     setOpenSet(true);
     setValue(21);
-  };
+  }
 
   const handleCloseSet = (event: any, reason: string) => {
     if (reason !== 'backdropClick') setOpenSet(false);
@@ -289,12 +293,7 @@ const Logins = (props: { logName: string }) => {
                   <Box sx={{ borderRadius: 1, backgroundColor: '#C0C0C0' }}>
                     <HeaderLogins />
                   </Box>
-                  {/* <>{isOpen && <TabsLogins valueSort={value} />}</> */}
-                  <Box sx={{ overflowX: 'auto', height: '88vh' }}>
-                    <Grid container item>
-                      {resStr}
-                    </Grid>
-                  </Box>
+                  <>{isOpen && <TabsLogins valueSort={value} />}</>
                 </Grid>
               </Grid>
             </Box>
