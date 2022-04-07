@@ -185,6 +185,30 @@ const Logins = (props: { logName: string }) => {
     }
   };
 
+  const WindSearsh = () => {
+    return (
+      <Box sx={styleServis}>
+        <Button sx={styleServisKnop} variant="contained" onClick={handleOpenSet}>
+          <b>Поиск</b>
+        </Button>
+        <Modal open={openSet} disableEnforceFocus onClose={handleCloseSet}>
+          <Box sx={styleSet}>
+            <Box
+              component="form"
+              sx={{ '& > :not(style)': { m: 1, width: '40ch' } }}
+              noValidate
+              autoComplete="off">
+              <InpForm />
+            </Box>
+            <Button sx={styleInpKnop} variant="contained" onClick={setFind}>
+              <b>Найти</b>
+            </Button>
+          </Box>
+        </Modal>
+      </Box>
+    );
+  };
+
   const [points, setPoints] = React.useState<Array<LogDatum>>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   const [isRead, setIsRead] = React.useState(false);
@@ -256,41 +280,24 @@ const Logins = (props: { logName: string }) => {
     StrokaLogins();
   }
 
+  //<Button sx={styleReset} variant="contained" onClick={() => setValue(4)}></Button>
+  //<Box sx={{ fontSize: 12, marginTop: -2.4, marginLeft: -2.5, marginRight: -2.5 }}></Box>
+
   return (
     <Box>
-      <Button sx={styleReset} variant="contained" onClick={() => setValue(4)}>
-        <b>Сброс настроек</b>
-      </Button>
-      <Box sx={styleServis}>
-        <Button sx={styleServisKnop} variant="contained" onClick={handleOpenSet}>
-          <b>Поиск</b>
-        </Button>
-        <Modal open={openSet} disableEnforceFocus onClose={handleCloseSet}>
-          <Box sx={styleSet}>
-            <Box
-              component="form"
-              sx={{ '& > :not(style)': { m: 1, width: '40ch' } }}
-              noValidate
-              autoComplete="off">
-              <InpForm />
-            </Box>
-            <Button sx={styleInpKnop} variant="contained" onClick={setFind}>
-              <b>Найти</b>
-            </Button>
-          </Box>
-        </Modal>
-      </Box>
-
       <Box sx={{ fontSize: 12, marginTop: -2.4, marginLeft: -2.5, marginRight: -2.5 }}>
         <Grid container>
           <Grid item xs={12}>
             <Box sx={{ marginRight: -1.5 }}>
               <Grid container>
                 <Grid item xs={12} sx={styleXt04}>
-                  <Box sx={{ borderRadius: 1, backgroundColor: '#C0C0C0' }}>
-                    <HeaderLogins />
+                  <Box sx={{ border: 0, marginTop: 0 }}>
+                    <Button sx={styleReset} variant="contained" onClick={() => setValue(4)}>
+                      <b>Сброс настроек</b>
+                    </Button>
                   </Box>
-                  {/* <>{isOpen && <TabsLogins valueSort={value} />}</> */}
+                  <WindSearsh />
+                  <HeaderLogins />
                   <Box sx={{ overflowX: 'auto', height: '88vh' }}>
                     <Grid container item>
                       {resStr}
