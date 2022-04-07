@@ -255,6 +255,11 @@ const Logins = (props: { logName: string }) => {
     );
   };
 
+  if (isOpen) {
+    TabsLogins(value);
+    StrokaLogins();
+  }
+
   return (
     <Box>
       <Button sx={styleReset} variant="contained" onClick={() => setValue(4)}>
