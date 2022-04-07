@@ -10,7 +10,9 @@ body {
   background-attachment: fixed;
 
   /* background: 'linear-gradient(45deg, #FFC0C0 45%, #0384CF 90%)', */
-  /* background: url(./imagJournal.jpg);
+  
+  background: url("/free/resources/trafficlight.svg");
+  
 
   background-repeat: no-repeat;
   background-position: center center;
@@ -18,7 +20,7 @@ body {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover; */
+  background-size: cover;
 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;

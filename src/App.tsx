@@ -43,13 +43,14 @@ const App = () => {
     backgroundColor: '#F1F3F4',
     color: 'black',
     marginRight: 1,
-    marginBottom: 0.5,
+    marginBottom: 0.25,
     textTransform: 'unset !important',
   };
 
   const styleModal = {
     position: 'relative',
-    bottom: '-48vh',
+    // bottom: '-48vh',
+    bottom: '-50vh',
     marginLeft: '60vh',
     transform: 'translate(-50%, -50%)',
     width: 150,

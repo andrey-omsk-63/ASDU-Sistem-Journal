@@ -8,6 +8,11 @@ import Modal from '@mui/material/Modal';
 
 import axios from 'axios';
 
+import { styleXt04, styleXTG02, styleXTG021, styleXTG03, styleXTG033 } from './LoginsStyle';
+import { styleXTG04, styleXTG044, styleInpKnop, styleBut01, styleSet } from './LoginsStyle';
+import { styleReset, styleServis, styleServisKnop,  } from './LoginsStyle';
+
+
 export interface LogMessage {
   logData: LogDatum[];
   message: string;
@@ -45,131 +50,6 @@ const Logins = (props: { logName: string }) => {
     flagSbros = true;
   }
 
-  const styleXt04 = {
-    border: 1,
-    borderRadius: 2,
-    borderColor: 'primary.main',
-    backgroundColor: '#F1F5FB',
-    opacity: 0.8,
-    height: '93vh',
-  };
-
-  const styleXTG02 = {
-    borderBottom: 1,
-    borderColor: 'primary.main',
-    textAlign: 'center',
-    backgroundColor: '#C0C0C0',
-  };
-
-  const styleXTG021 = {
-    borderRadius: 1,
-    borderBottom: 1,
-    borderColor: 'primary.main',
-    textAlign: 'center',
-    backgroundColor: '#C0C0C0',
-  };
-
-  const styleXTG03 = {
-    borderRight: 1,
-    borderBottom: 1,
-    borderColor: 'primary.main',
-    padding: 1,
-    textAlign: 'center',
-    color: 'black',
-  };
-
-  const styleXTG033 = {
-    borderRight: 1,
-    borderBottom: 1,
-    borderColor: 'primary.main',
-    padding: 1,
-    textAlign: 'center',
-    color: 'red',
-  };
-
-  const styleXTG04 = {
-    borderRight: 1,
-    borderBottom: 1,
-    borderColor: 'primary.main',
-    padding: 1,
-    color: 'black',
-  };
-
-  const styleXTG044 = {
-    borderRight: 1,
-    borderBottom: 1,
-    borderColor: 'primary.main',
-    padding: 1,
-    color: 'red',
-  };
-
-  const styleInpKnop = {
-    color: 'black',
-    marginTop: 1,
-    maxHeight: '21px',
-    minHeight: '21px',
-    backgroundColor: '#F1F3F4',
-    textTransform: 'unset !important',
-  };
-
-  const styleBut01 = {
-    fontSize: 12,
-    marginRight: 0.5,
-    width: '18%',
-    maxHeight: '21px',
-    minHeight: '21px',
-    backgroundColor: '#F1F3F4',
-    color: 'black',
-    textTransform: 'unset !important',
-  };
-
-  const styleSet = {
-    position: 'absolute',
-    top: '14%',
-    right: '-9%',
-    transform: 'translate(-50%, -50%)',
-    width: 360,
-    bgcolor: 'background.paper',
-    borderColor: 'primary.main',
-    border: '3px solid #000',
-    borderRadius: 2,
-    boxShadow: 24,
-    textAlign: 'center',
-    p: 3,
-  };
-
-  const styleReset = {
-    fontSize: 14,
-    marginTop: -12,
-    marginLeft: 72,
-    width: '18%',
-    maxHeight: '21px',
-    minHeight: '21px',
-    backgroundColor: '#F1F3F4',
-    color: 'black',
-    textTransform: 'unset !important',
-  };
-
-  const styleServis = {
-    fontSize: 14,
-    marginTop: -5.5,
-    marginLeft: 'auto',
-    marginRight: 0,
-    maxHeight: '21px',
-    minHeight: '21px',
-    width: '4%',
-  };
-
-  const styleServisKnop = {
-    marginTop: -5.8,
-    maxHeight: '21px',
-    minHeight: '21px',
-    backgroundColor: '#F1F3F4',
-    color: 'blue',
-    textTransform: 'unset !important',
-  };
-
-
   const HeaderLogins = () => {
     return (
       <Grid item container xs={12}>
@@ -191,11 +71,15 @@ const Logins = (props: { logName: string }) => {
   };
 
   const TabsLogins = (props: { valueSort: number }) => {
+    console.log('!!!:',flagSbros, props.valueSort)
     if (flagSbros) {
       MakeMassPoints();
       flagSbros = false;
     } else {
       switch (props.valueSort) {
+        // ничего не делать
+        case 21:
+          break;
         case 1:
           // сортировка по type
           massPoints.sort((a, b) => a.num - b.num);
@@ -336,7 +220,11 @@ const Logins = (props: { logName: string }) => {
   if (isOpen && isRead) MakeMassPoints();
 
   const [openSet, setOpenSet] = React.useState(false);
-  const handleOpenSet = () => setOpenSet(true);
+
+  const handleOpenSet = () => {
+    setOpenSet(true);
+    setValue(21);
+  }
 
   const handleCloseSet = (event: any, reason: string) => {
     if (reason !== 'backdropClick') setOpenSet(false);
