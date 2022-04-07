@@ -133,6 +133,7 @@ const Logins = (props: { logName: string }) => {
           break;
         default:
           // сброс
+          console.log('sbros!!!');
           MakeMassPoints();
           formSett = '';
       }
@@ -142,6 +143,7 @@ const Logins = (props: { logName: string }) => {
 
   const MakeMassPoints = () => {
     massPoints = [];
+    console.log('points:', points);
     for (let i = 0; i < points.length; i++) {
       maskPoints = [
         {
