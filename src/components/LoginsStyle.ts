@@ -4,7 +4,7 @@ export const styleXt04 = {
   borderColor: 'primary.main',
   backgroundColor: '#F1F5FB',
   opacity: 0.8,
-  height: '93vh',
+  height: '96vh',
 };
 
 export const styleXTG02 = {
@@ -88,7 +88,7 @@ export const styleSet = {
   borderRadius: 2,
   boxShadow: 24,
   textAlign: 'center',
-  p: 3,
+  p: 2,
 };
 
 export const styleReset = {

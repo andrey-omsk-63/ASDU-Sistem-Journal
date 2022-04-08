@@ -120,20 +120,20 @@ const Logins = (props: { logName: string }) => {
           break;
         case 3:
           // поиск в сообщениях
-          let masrab: Array<Line> = [];
-
-          for (let i = 0; i < massPoints.length; i++) {
-            let str = massPoints[i].info.toUpperCase();
-            if (str.indexOf(formSett.toUpperCase()) !== -1) {
-              masrab.push(massPoints[i]);
+          if (formSett !== '') {
+            let masrab: Array<Line> = [];
+            for (let i = 0; i < massPoints.length; i++) {
+              let str = massPoints[i].info.toUpperCase();
+              if (str.indexOf(formSett.toUpperCase()) !== -1) {
+                masrab.push(massPoints[i]);
+              }
             }
+            massPoints = [];
+            massPoints = masrab;
           }
-          massPoints = [];
-          massPoints = masrab;
           break;
         default:
           // сброс
-          console.log('sbros!!!');
           MakeMassPoints();
           formSett = '';
       }
@@ -143,7 +143,6 @@ const Logins = (props: { logName: string }) => {
 
   const MakeMassPoints = () => {
     massPoints = [];
-    console.log('points:', points);
     for (let i = 0; i < points.length; i++) {
       maskPoints = [
         {
@@ -268,6 +267,8 @@ const Logins = (props: { logName: string }) => {
         size="small"
         onKeyPress={handleKey}
         label="Поиск"
+        inputProps={{ style: { fontSize: 14 } }} // font size of input text
+        InputLabelProps={{ style: { fontSize: 14 } }} // font size of input label
         value={valuen}
         onChange={handleChange} //отключение Enter
         variant="outlined"
@@ -280,34 +281,12 @@ const Logins = (props: { logName: string }) => {
     StrokaLogins();
   }
 
-  //<Button sx={styleReset} variant="contained" onClick={() => setValue(4)}></Button>
-  //<Box sx={{ fontSize: 12, marginTop: -2.4, marginLeft: -2.5, marginRight: -2.5 }}></Box>
-
   return (
     <Box>
       <Button sx={styleReset} variant="contained" onClick={() => setValue(4)}>
         <b>Сброс настроек</b>
       </Button>
-      <Box sx={styleServis}>
-        <Button sx={styleServisKnop} variant="contained" onClick={handleOpenSet}>
-          <b>Поиск</b>
-        </Button>
-        <Modal open={openSet} disableEnforceFocus onClose={handleCloseSet}>
-          <Box sx={styleSet}>
-            <Box
-              component="form"
-              sx={{ '& > :not(style)': { m: 1, width: '40ch' } }}
-              noValidate
-              autoComplete="off">
-              <InpForm />
-            </Box>
-            <Button sx={styleInpKnop} variant="contained" onClick={setFind}>
-              <b>Найти</b>
-            </Button>
-          </Box>
-        </Modal>
-      </Box>
-
+      <WindSearsh />
       <Box sx={{ fontSize: 12, marginTop: -2.4, marginLeft: -2.5, marginRight: -2.5 }}>
         <Grid container>
           <Grid item xs={12}>
@@ -317,8 +296,7 @@ const Logins = (props: { logName: string }) => {
                   <Box sx={{ borderRadius: 1, backgroundColor: '#C0C0C0' }}>
                     <HeaderLogins />
                   </Box>
-                  {/* <>{isOpen && <TabsLogins valueSort={value} />}</> */}
-                  <Box sx={{ overflowX: 'auto', height: '88vh' }}>
+                  <Box sx={{ overflowX: 'auto', height: '92vh' }}>
                     <Grid container item>
                       {resStr}
                     </Grid>
