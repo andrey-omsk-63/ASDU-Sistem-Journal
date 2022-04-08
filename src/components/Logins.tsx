@@ -105,43 +105,42 @@ const Logins = (props: { logName: string }) => {
   };
 
   const TabsLogins = (valueSort: number) => {
-    if (flagSbros) {
-      MakeMassPoints();
-      flagSbros = false;
-    } else {
-      switch (valueSort) {
-        case 1:
-          // сортировка по type
-          massPoints.sort((a, b) => a.num - b.num);
-          break;
-        case 2:
-          // сортировка по time
-          massPoints.sort((a, b) => a.pnum - b.pnum);
-          break;
-        case 3:
-          // поиск в сообщениях
-          if (formSett !== '') {
-            let masrab: Array<Line> = [];
-            for (let i = 0; i < massPoints.length; i++) {
-              let str = massPoints[i].info.toUpperCase();
-              if (str.indexOf(formSett.toUpperCase()) !== -1) {
-                masrab.push(massPoints[i]);
-              }
+    console.log('valueSort:', valueSort, 'flagSbros:', flagSbros)
+    
+    switch (valueSort) {
+      case 1:
+        // сортировка по type
+        massPoints.sort((a, b) => a.num - b.num);
+        break;
+      case 2:
+        // сортировка по time
+        massPoints.sort((a, b) => a.pnum - b.pnum);
+        break;
+      case 3:
+        // поиск в сообщениях
+        if (formSett !== '') {
+          let masrab: Array<Line> = [];
+          for (let i = 0; i < massPoints.length; i++) {
+            let str = massPoints[i].info.toUpperCase();
+            if (str.indexOf(formSett.toUpperCase()) !== -1) {
+              masrab.push(massPoints[i]);
             }
-            massPoints = [];
-            massPoints = masrab;
           }
-          break;
-        default:
-          // сброс
-          MakeMassPoints();
-          formSett = '';
-      }
+          massPoints = [];
+          massPoints = masrab;
+        }
+        break;
+      case 4:
+        // сброс
+        MakeMassPoints();
+        setValue(2)
+        formSett = '';
+        break;
     }
-    //return <Box sx={{ overflowX: 'auto', height: '88vh' }}>{StrokaLogins()}</Box>;
   };
 
   const MakeMassPoints = () => {
+    console.log('MakeMassPoint:', isRead,)
     massPoints = [];
     for (let i = 0; i < points.length; i++) {
       maskPoints = [
@@ -179,7 +178,7 @@ const Logins = (props: { logName: string }) => {
       maskPoints[0].info = points[i].message.slice(29);
 
       massPoints.push(maskPoints[0]);
-      //setIsRead(false);
+      setIsRead(false);
       //flagMake = false;
     }
   };
@@ -231,11 +230,13 @@ const Logins = (props: { logName: string }) => {
     axios.get(ipAdress).then(({ data }) => {
       console.log('data:', data);
       setPoints(data.logData);
-      setIsOpen(true);
       setIsRead(true);
     });
+    setIsOpen(true);
+    setValue(2)
   }, [ipAdress]);
 
+  console.log('isOpen:', isOpen, 'isRead:', isRead, 'value:', value)
   if (isOpen && isRead) MakeMassPoints();
 
   const [openSet, setOpenSet] = React.useState(false);
