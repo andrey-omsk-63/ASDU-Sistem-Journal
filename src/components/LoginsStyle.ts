@@ -83,8 +83,8 @@ export const styleSet = {
   transform: 'translate(-50%, -50%)',
   width: 360,
   bgcolor: 'background.paper',
-  borderColor: 'primary.main',
   border: '3px solid #000',
+  borderColor: 'primary.main',
   borderRadius: 2,
   boxShadow: 24,
   textAlign: 'center',
@@ -121,4 +121,3 @@ export const styleServisKnop = {
   color: 'blue',
   textTransform: 'unset !important',
 };
-
