@@ -1,16 +1,17 @@
-import * as React from 'react';
+import * as React from "react";
 
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Modal from '@mui/material/Modal';
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Modal from "@mui/material/Modal";
 
-import axios from 'axios';
+import axios from "axios";
 
-import { styleXt04, styleXTG02, styleXTG021, styleXTG03, styleXTG033 } from './LoginsStyle';
-import { styleXTG04, styleXTG044, styleInpKnop, styleBut01, styleSet } from './LoginsStyle';
-import { styleReset, styleServis, styleServisKnop } from './LoginsStyle';
+import { styleXt04, styleXTG02, styleXTG021, styleSet } from "./LoginsStyle";
+import { styleXTG04, styleXTG03, styleXTG033, styleBoxGl } from "./LoginsStyle";
+import { styleXTG044, styleInpKnop, styleBut01 } from "./LoginsStyle";
+import { styleReset, styleServis, styleServisKnop } from "./LoginsStyle";
 
 export interface LogMessage {
   logData: LogDatum[];
@@ -34,33 +35,37 @@ export interface Line {
   haveError: boolean;
 }
 
-let flagSbros = true;
-
-let oldData = '-1';
-let formSett = '';
+//let flagSbros = true;
+let oldData = "-1";
+let formSett = "";
 
 let massPoints: Array<Line> = [];
 
 const Logins = (props: { logName: string }) => {
-  //console.log('logName:', props.logName);
-
   if (oldData !== props.logName) {
     oldData = props.logName;
-    flagSbros = true;
+    //flagSbros = true;
   }
 
   let resStr: any = [];
-
   const HeaderLogins = () => {
     return (
       <Grid item container xs={12}>
         <Grid item xs={1.5} sx={styleXTG021}>
-          <Button sx={styleBut01} variant="contained" onClick={() => setValue(1)}>
+          <Button
+            sx={styleBut01}
+            variant="contained"
+            onClick={() => setValue(1)}
+          >
             <b>Тип</b>
           </Button>
         </Grid>
         <Grid item xs={1} sx={styleXTG02}>
-          <Button sx={styleBut01} variant="contained" onClick={() => setValue(2)}>
+          <Button
+            sx={styleBut01}
+            variant="contained"
+            onClick={() => setValue(2)}
+          >
             <b>Время</b>
           </Button>
         </Grid>
@@ -73,7 +78,6 @@ const Logins = (props: { logName: string }) => {
 
   const StrokaLogins = () => {
     resStr = [];
-
     for (let i = 0; i < massPoints.length; i++) {
       resStr.push(
         <Grid key={Math.random()} item container xs={12}>
@@ -81,44 +85,42 @@ const Logins = (props: { logName: string }) => {
             key={Math.random()}
             item
             xs={1.5}
-            sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}>
+            sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}
+          >
             <b>{massPoints[i].type}</b>
           </Grid>
           <Grid
             key={Math.random()}
             item
             xs={1}
-            sx={massPoints[i].haveError ? styleXTG033 : styleXTG03}>
+            sx={massPoints[i].haveError ? styleXTG033 : styleXTG03}
+          >
             <b>{massPoints[i].time}</b>
           </Grid>
           <Grid
             key={Math.random()}
             item
             xs={9.5}
-            sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}>
+            sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}
+          >
             <b>{massPoints[i].info}</b>
           </Grid>
-        </Grid>,
+        </Grid>
       );
     }
     return resStr;
   };
 
   const TabsLogins = (valueSort: number) => {
-    console.log('valueSort:', valueSort, 'flagSbros:', flagSbros)
-    
     switch (valueSort) {
-      case 1:
-        // сортировка по type
+      case 1: // сортировка по type
         massPoints.sort((a, b) => a.num - b.num);
         break;
-      case 2:
-        // сортировка по time
+      case 2: // сортировка по time
         massPoints.sort((a, b) => a.pnum - b.pnum);
         break;
-      case 3:
-        // поиск в сообщениях
-        if (formSett !== '') {
+      case 3: // поиск в сообщениях
+        if (formSett !== "") {
           let masrab: Array<Line> = [];
           for (let i = 0; i < massPoints.length; i++) {
             let str = massPoints[i].info.toUpperCase();
@@ -130,48 +132,46 @@ const Logins = (props: { logName: string }) => {
           massPoints = masrab;
         }
         break;
-      case 4:
-        // сброс
+      case 4: // сброс
         MakeMassPoints();
-        setValue(2)
-        formSett = '';
+        setValue(2);
+        formSett = "";
         break;
     }
   };
 
   const MakeMassPoints = () => {
-    //console.log('MakeMassPoint:', isRead,)
     massPoints = [];
-    let oldTime = '';
+    let oldTime = "";
     for (let i = 0; i < points.length; i++) {
       maskPoints = [
         {
           num: 0,
           pnum: i,
-          type: '',
-          time: '',
-          info: '',
+          type: "",
+          time: "",
+          info: "",
           haveError: false,
         },
       ];
       switch (points[i].message.slice(0, 1)) {
-        case 'I':
-          maskPoints[0].type = 'Информация';
+        case "I":
+          maskPoints[0].type = "Информация";
           maskPoints[0].haveError = false;
           maskPoints[0].num = 0;
           break;
-        case 'D':
-          maskPoints[0].type = 'Отладка';
+        case "D":
+          maskPoints[0].type = "Отладка";
           maskPoints[0].haveError = false;
           maskPoints[0].num = 1;
           break;
-        case 'E':
-          maskPoints[0].type = 'Ошибка';
+        case "E":
+          maskPoints[0].type = "Ошибка";
           maskPoints[0].haveError = true;
           maskPoints[0].num = 2;
           break;
         default:
-          maskPoints[0].type = 'Разное';
+          maskPoints[0].type = "Разное";
           maskPoints[0].haveError = true;
           maskPoints[0].num = 3;
       }
@@ -191,16 +191,21 @@ const Logins = (props: { logName: string }) => {
   const WindSearsh = () => {
     return (
       <Box sx={styleServis}>
-        <Button sx={styleServisKnop} variant="contained" onClick={handleOpenSet}>
+        <Button
+          sx={styleServisKnop}
+          variant="contained"
+          onClick={handleOpenSet}
+        >
           <b>Поиск</b>
         </Button>
         <Modal open={openSet} disableEnforceFocus onClose={handleCloseSet}>
           <Box sx={styleSet}>
             <Box
               component="form"
-              sx={{ '& > :not(style)': { m: 1, width: '40ch' } }}
+              sx={{ "& > :not(style)": { m: 1, width: "40ch" } }}
               noValidate
-              autoComplete="off">
+              autoComplete="off"
+            >
               <InpForm />
             </Box>
             <Button sx={styleInpKnop} variant="contained" onClick={setFind}>
@@ -221,34 +226,35 @@ const Logins = (props: { logName: string }) => {
     {
       num: 0,
       pnum: 0,
-      type: '',
-      time: '',
-      info: '',
+      type: "",
+      time: "",
+      info: "",
       haveError: false,
     },
   ];
 
   //const ipAdress: string = 'http://localhost:3000/otlmess.json';
-  const ipAdress: string = window.location.href + '/info?fileName=' + props.logName;
+  const ipAdress: string =
+    window.location.href + "/info?fileName=" + props.logName;
 
   React.useEffect(() => {
     axios.get(ipAdress).then(({ data }) => {
-      console.log('data:', data);
+      console.log("data:", data);
       setPoints(data.logData);
       setIsRead(true);
     });
     setIsOpen(true);
-    setValue(2)
+    setValue(2);
   }, [ipAdress]);
 
-  console.log('isOpen:', isOpen, 'isRead:', isRead, 'value:', value)
+  console.log("isOpen:", isOpen, "isRead:", isRead, "value:", value);
   if (isOpen && isRead) MakeMassPoints();
 
   const [openSet, setOpenSet] = React.useState(false);
   const handleOpenSet = () => setOpenSet(true);
 
   const handleCloseSet = (event: any, reason: string) => {
-    if (reason !== 'backdropClick') setOpenSet(false);
+    if (reason !== "backdropClick") setOpenSet(false);
   };
 
   const setFind = () => {
@@ -265,7 +271,7 @@ const Logins = (props: { logName: string }) => {
     };
 
     const handleKey = (event: any) => {
-      if (event.key === 'Enter') event.preventDefault();
+      if (event.key === "Enter") event.preventDefault();
     };
 
     return (
@@ -293,16 +299,16 @@ const Logins = (props: { logName: string }) => {
         <b>Сброс настроек</b>
       </Button>
       <WindSearsh />
-      <Box sx={{ fontSize: 12, marginTop: -2.4, marginLeft: -2.5, marginRight: -2.5 }}>
+      <Box sx={styleBoxGl}>
         <Grid container>
           <Grid item xs={12}>
             <Box sx={{ marginRight: -1.5 }}>
               <Grid container>
                 <Grid item xs={12} sx={styleXt04}>
-                  <Box sx={{ borderRadius: 1, backgroundColor: '#C0C0C0' }}>
+                  <Box sx={{ borderRadius: 1, backgroundColor: "#C0C0C0" }}>
                     <HeaderLogins />
                   </Box>
-                  <Box sx={{ overflowX: 'auto', height: '92vh' }}>
+                  <Box sx={{ overflowX: "auto", height: "92vh" }}>
                     <Grid container item>
                       {resStr}
                     </Grid>

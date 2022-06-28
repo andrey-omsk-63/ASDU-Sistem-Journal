@@ -121,3 +121,10 @@ export const styleServisKnop = {
   color: 'blue',
   textTransform: 'unset !important',
 };
+
+export const styleBoxGl = {
+  fontSize: 12,
+  marginTop: -2.4,
+  marginLeft: -2.5,
+  marginRight: -2.5,
+};
