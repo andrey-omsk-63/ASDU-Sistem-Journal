@@ -5,6 +5,8 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Modal from "@mui/material/Modal";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import axios from "axios";
 
@@ -35,17 +37,13 @@ export interface Line {
   haveError: boolean;
 }
 
-//let flagSbros = true;
 let oldData = "-1";
 let formSett = "";
 
 let massPoints: Array<Line> = [];
 
-const Logins = (props: { logName: string }) => {
-  if (oldData !== props.logName) {
-    oldData = props.logName;
-    //flagSbros = true;
-  }
+const Logins = (props: { logName: string; debug: boolean }) => {
+  if (oldData !== props.logName) oldData = props.logName;
 
   let resStr: any = [];
   const HeaderLogins = () => {
@@ -78,71 +76,77 @@ const Logins = (props: { logName: string }) => {
 
   const StrokaLogins = () => {
     resStr = [];
-    for (let i = 0; i < massPoints.length; i++) {
-      resStr.push(
-        <Grid key={Math.random()} item container xs={12}>
-          <Grid
-            key={Math.random()}
-            item
-            xs={1.5}
-            sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}
-          >
-            <b>{massPoints[i].type}</b>
+    if (isOpen) {
+      for (let i = 0; i < massPoints.length; i++) {
+        resStr.push(
+          <Grid key={Math.random()} item container xs={12}>
+            <Grid
+              key={Math.random()}
+              item
+              xs={1.5}
+              sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}
+            >
+              <b>{massPoints[i].type}</b>
+            </Grid>
+            <Grid
+              key={Math.random()}
+              item
+              xs={1}
+              sx={massPoints[i].haveError ? styleXTG033 : styleXTG03}
+            >
+              <b>{massPoints[i].time}</b>
+            </Grid>
+            <Grid
+              key={Math.random()}
+              item
+              xs={9.5}
+              sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}
+            >
+              <b>{massPoints[i].info}</b>
+            </Grid>
           </Grid>
-          <Grid
-            key={Math.random()}
-            item
-            xs={1}
-            sx={massPoints[i].haveError ? styleXTG033 : styleXTG03}
-          >
-            <b>{massPoints[i].time}</b>
-          </Grid>
-          <Grid
-            key={Math.random()}
-            item
-            xs={9.5}
-            sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}
-          >
-            <b>{massPoints[i].info}</b>
-          </Grid>
-        </Grid>
-      );
+        );
+      }
     }
     return resStr;
   };
 
   const TabsLogins = (valueSort: number) => {
-    switch (valueSort) {
-      case 1: // сортировка по type
-        massPoints.sort((a, b) => a.num - b.num);
-        break;
-      case 2: // сортировка по time
-        massPoints.sort((a, b) => a.pnum - b.pnum);
-        break;
-      case 3: // поиск в сообщениях
-        if (formSett !== "") {
-          let masrab: Array<Line> = [];
-          for (let i = 0; i < massPoints.length; i++) {
-            let str = massPoints[i].info.toUpperCase();
-            if (str.indexOf(formSett.toUpperCase()) !== -1) {
-              masrab.push(massPoints[i]);
+    if (isOpen) {
+      switch (valueSort) {
+        case 1: // сортировка по type
+          massPoints.sort((a, b) => a.num - b.num);
+          break;
+        case 2: // сортировка по time
+          massPoints.sort((a, b) => a.pnum - b.pnum);
+          break;
+        case 3: // поиск в сообщениях
+          if (formSett !== "") {
+            let masrab: Array<Line> = [];
+            for (let i = 0; i < massPoints.length; i++) {
+              let str = massPoints[i].info.toUpperCase();
+              if (str.indexOf(formSett.toUpperCase()) !== -1) {
+                masrab.push(massPoints[i]);
+              }
             }
+            massPoints = [];
+            massPoints = masrab;
           }
-          massPoints = [];
-          massPoints = masrab;
-        }
-        break;
-      case 4: // сброс
-        MakeMassPoints();
-        setValue(2);
-        formSett = "";
-        break;
+          Output();
+          break;
+        case 4: // сброс
+          MakeMassPoints();
+          setValue(2);
+          formSett = "";
+          break;
+      }
     }
   };
 
   const MakeMassPoints = () => {
     massPoints = [];
     let oldTime = "";
+
     for (let i = 0; i < points.length; i++) {
       maskPoints = [
         {
@@ -186,18 +190,21 @@ const Logins = (props: { logName: string }) => {
       massPoints.push(maskPoints[0]);
       setIsRead(false);
     }
+    Output();
   };
 
   const WindSearsh = () => {
     return (
-      <Box sx={styleServis}>
-        <Button
-          sx={styleServisKnop}
-          variant="contained"
-          onClick={handleOpenSet}
-        >
-          <b>Поиск</b>
-        </Button>
+      <>
+        {/* <Box sx={styleServis}>
+          <Button
+            sx={styleServisKnop}
+            variant="contained"
+            onClick={handleOpenSet}
+          >
+            <b>Поиск</b>
+          </Button>
+        </Box> */}
         <Modal open={openSet} disableEnforceFocus onClose={handleCloseSet}>
           <Box sx={styleSet}>
             <Box
@@ -213,7 +220,7 @@ const Logins = (props: { logName: string }) => {
             </Button>
           </Box>
         </Modal>
-      </Box>
+      </>
     );
   };
 
@@ -233,25 +240,11 @@ const Logins = (props: { logName: string }) => {
     },
   ];
 
-  //const ipAdress: string = 'http://localhost:3000/otlmess.json';
-  const ipAdress: string =
-    window.location.href + "/info?fileName=" + props.logName;
-
-  React.useEffect(() => {
-    axios.get(ipAdress).then(({ data }) => {
-      console.log("data:", data);
-      setPoints(data.logData);
-      setIsRead(true);
-    });
-    setIsOpen(true);
-    setValue(2);
-  }, [ipAdress]);
-
-  console.log("isOpen:", isOpen, "isRead:", isRead, "value:", value);
-  if (isOpen && isRead) MakeMassPoints();
-
   const [openSet, setOpenSet] = React.useState(false);
-  const handleOpenSet = () => setOpenSet(true);
+  const handleOpenSet = () => {
+    setOpenLoader(false);
+    setOpenSet(true);
+  }
 
   const handleCloseSet = (event: any, reason: string) => {
     if (reason !== "backdropClick") setOpenSet(false);
@@ -260,6 +253,7 @@ const Logins = (props: { logName: string }) => {
   const setFind = () => {
     setOpenSet(false);
     setValue(3);
+    setOpenLoader(true);
   };
 
   const InpForm = () => {
@@ -282,22 +276,72 @@ const Logins = (props: { logName: string }) => {
         inputProps={{ style: { fontSize: 14 } }} // font size of input text
         InputLabelProps={{ style: { fontSize: 14 } }} // font size of input label
         value={valuen}
-        onChange={handleChange} //отключение Enter
+        onChange={handleChange}
         variant="outlined"
       />
     );
   };
 
-  if (isOpen) {
-    TabsLogins(value);
-    StrokaLogins();
+  const [openLoader, setOpenLoader] = React.useState(false);
+  const handleClose = () => {
+    setOpenLoader(false);
+  };
+
+  const styleBackdrop = {
+    color: "#fff",
+    zIndex: (theme: any) => theme.zIndex.drawer + 1,
+  };
+
+  const Output = () => {
+    setTimeout(() => {
+      setOpenLoader(false);
+    }, 100);
+  };
+
+  const Loader = () => {
+    console.log("Loader");
+    return (
+      <Backdrop sx={styleBackdrop} open={openLoader} onClick={handleClose}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    );
+  };
+
+  let ipAdress: string =
+    window.location.href + "/info?fileName=" + props.logName;
+  if (props.debug) ipAdress = "http://localhost:3000/otlmess.json";
+
+  React.useEffect(() => {
+    axios.get(ipAdress).then(({ data }) => {
+      setPoints(data.logData);
+      setIsRead(true);
+    });
+    setIsOpen(true);
+    setValue(2);
+  }, [ipAdress]);
+
+  if (isOpen && isRead) {
+    setOpenLoader(true);
+    MakeMassPoints();
   }
+
+  TabsLogins(value);
+  StrokaLogins();
 
   return (
     <Box>
       <Button sx={styleReset} variant="contained" onClick={() => setValue(4)}>
         <b>Сброс настроек</b>
       </Button>
+      <Box sx={styleServis}>
+        <Button
+          sx={styleServisKnop}
+          variant="contained"
+          onClick={handleOpenSet}
+        >
+          <b>Поиск</b>
+        </Button>
+      </Box>
       <WindSearsh />
       <Box sx={styleBoxGl}>
         <Grid container>
@@ -309,9 +353,13 @@ const Logins = (props: { logName: string }) => {
                     <HeaderLogins />
                   </Box>
                   <Box sx={{ overflowX: "auto", height: "92vh" }}>
-                    <Grid container item>
-                      {resStr}
-                    </Grid>
+                    {openLoader ? (
+                      <Loader />
+                    ) : (
+                      <Grid container item>
+                        {resStr}
+                      </Grid>
+                    )}
                   </Box>
                 </Grid>
               </Grid>

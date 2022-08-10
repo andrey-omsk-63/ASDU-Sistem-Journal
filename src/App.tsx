@@ -1,76 +1,78 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import TabContext from '@mui/lab/TabContext';
-import TabPanel from '@mui/lab/TabPanel';
-import Modal from '@mui/material/Modal';
+import React from "react";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import TabContext from "@mui/lab/TabContext";
+import TabPanel from "@mui/lab/TabPanel";
+import Modal from "@mui/material/Modal";
 
-import axios from 'axios';
+import axios from "axios";
 
-import Logins from './components/Logins';
+import Logins from "./components/Logins";
 
-let extData = '__.__.____';
+let extData = "__.__.____";
+
+let debug = false;
 
 const App = () => {
   const styleApp01 = {
     fontSize: 14,
     marginRight: 0.5,
-    width: '18%',
-    maxHeight: '21px',
-    minHeight: '21px',
-    backgroundColor: '#F1F3F4',
-    color: 'black',
-    textTransform: 'unset !important',
+    width: "18%",
+    maxHeight: "21px",
+    minHeight: "21px",
+    backgroundColor: "#F1F3F4",
+    color: "black",
+    textTransform: "unset !important",
   };
 
   const styleApp02 = {
     fontSize: 14,
     marginRight: 0.5,
     borderRadius: 1,
-    width: '12%',
-    maxHeight: '21px',
-    minHeight: '21px',
-    backgroundColor: '#FFE295',
-    color: 'black',
-    textAlign: 'center',
+    width: "12%",
+    maxHeight: "21px",
+    minHeight: "21px",
+    backgroundColor: "#FFE295",
+    color: "black",
+    textAlign: "center",
   };
 
   const styleModalMenu = {
     fontSize: 13.9,
-    maxHeight: '20px',
-    minHeight: '20px',
-    backgroundColor: '#F1F3F4',
-    color: 'black',
+    maxHeight: "20px",
+    minHeight: "20px",
+    backgroundColor: "#F1F3F4",
+    color: "black",
     marginRight: 1,
     marginBottom: 0.2,
-    textTransform: 'unset !important',
+    textTransform: "unset !important",
   };
 
   const styleModal = {
-    position: 'relative',
-    bottom: '-50vh',
-    marginLeft: '60vh',
-    transform: 'translate(-50%, -50%)',
+    position: "relative",
+    bottom: "-50vh",
+    marginLeft: "60vh",
+    transform: "translate(-50%, -50%)",
     width: 150,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    borderColor: 'primary.main',
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    borderColor: "primary.main",
     borderRadius: 2,
     boxShadow: 24,
     p: 3,
   };
 
   const styleModalEnd = {
-    position: 'absolute',
-    maxWidth: '3vh',
-    minWidth: '3vh',
-    maxHeight: '16px',
-    minHeight: '16px',
-    backgroundColor: 'fff',
-    color: 'black',
-    top: '0.5%',
-    left: '88%',
+    position: "absolute",
+    maxWidth: "3vh",
+    minWidth: "3vh",
+    maxHeight: "16px",
+    minHeight: "16px",
+    backgroundColor: "fff",
+    color: "black",
+    top: "0.5%",
+    left: "88%",
     fontSize: 15,
   };
 
@@ -82,12 +84,12 @@ const App = () => {
   const handleClose = (numer: number) => {
     if (numer !== 777) {
       setCrossData(numer);
-      setValue('1');
+      setValue("1");
       extData =
         points[numer].slice(11, 13) +
-        '.' +
+        "." +
         points[numer].slice(8, 10) +
-        '.' +
+        "." +
         points[numer].slice(3, 7);
     }
     setOpen(false);
@@ -95,26 +97,32 @@ const App = () => {
 
   const SpisData = () => {
     let resStr = [];
-    let stroka = '';
-    let strDat = '';
+    let stroka = "";
+    let strDat = "";
 
     resStr.push(
       <Button key={777} sx={styleModalEnd} onClick={() => handleClose(777)}>
         <b>&#10006;</b>
-      </Button>,
+      </Button>
     );
     if (isOpen) {
       for (let i = 0; i < points.length; i++) {
         stroka = points[points.length - i - 1];
-        strDat = stroka.slice(11, 13) + '.' + stroka.slice(8, 10) + '.' + stroka.slice(3, 7);
+        strDat =
+          stroka.slice(11, 13) +
+          "." +
+          stroka.slice(8, 10) +
+          "." +
+          stroka.slice(3, 7);
         resStr.push(
           <Button
             key={i}
             sx={styleModalMenu}
             variant="contained"
-            onClick={() => handleClose(points.length - i - 1)}>
+            onClick={() => handleClose(points.length - i - 1)}
+          >
             <b>{strDat}</b>
-          </Button>,
+          </Button>
         );
       }
     }
@@ -140,16 +148,32 @@ const App = () => {
   const [points, setPoints] = React.useState<Array<string>>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   //const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
-  const ipAdress = window.location.href;
+  let ipAdress = window.location.href;
+
+  let pageUrl = new URL(window.location.href);
+  console.log("!!!!", pageUrl, pageUrl.href);
+  if (pageUrl.href === "http://localhost:3000/") {
+    ipAdress = "http://localhost:3000/otladkaGlob.json";
+    debug = true;
+  }
 
   React.useEffect(() => {
-    axios.post(ipAdress).then(({ data }) => {
-      setPoints(data.fileNames);
-      setIsOpen(true);
-    });
+    if (debug) {
+      axios.get(ipAdress).then(({ data }) => {
+        console.log("data:", data);
+        setPoints(data.fileNames);
+        setIsOpen(true);
+      });
+    } else {
+      axios.post(ipAdress).then(({ data }) => {
+        console.log("data:", data);
+        setPoints(data.fileNames);
+        setIsOpen(true);
+      });
+    }
   }, [ipAdress]);
 
-  const [value, setValue] = React.useState('0');
+  const [value, setValue] = React.useState("0");
 
   return (
     <>
@@ -161,7 +185,7 @@ const App = () => {
           </Stack>
         </Box>
         <TabPanel value="1">
-          <Logins logName={points[crossData]} />
+          <Logins logName={points[crossData]} debug={debug} />
         </TabPanel>
       </TabContext>
     </>
