@@ -67,7 +67,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
             <b>Время</b>
           </Button>
         </Grid>
-        <Grid item xs={2} sx={styleXTG021}>
+        <Grid item xs={9.5} sx={styleXTG021}>
           <b>Сообщение</b>
         </Grid>
       </Grid>
@@ -192,86 +192,20 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     }
     Output();
   };
-  const [valuen, setValuen] = React.useState(formSett);
-
-  const setFind = () => {
-    //setOpenSet(false);
-    setValue(3);
-    if (formSett) setOpenLoader(true);
-  };
-
-  const styleP01 = {
-    border: 2,
-    //marginLeft: "auto",`
-    //marginRight: -5,
-    // maxWidth: "260px",
-    // minWidth: "260px",
-  };
-
-  const styleP02 = {
-    border: 0,
-    backgroundColor: "#FFFBE5",
-    //borderRadius: 1,
-    marginTop: -2.75,
-    //marginRight: 22,
-    maxHeight: "21px",
-    minHeight: "21px",
-    maxWidth: "75px",
-    minWidth: "75px",
-  };
-
-  const InputPoisk = () => {
-    const [valuen, setValuen] = React.useState(formSett);
-
-    const handleKey = (event: any) => {
-      if (event.key === "Enter") event.preventDefault();
-    };
-
-    const handleChange = (event: any) => {
-      formSett = event.target.value.trimStart(); // удаление пробелов в начале строки
-      setValuen(formSett);
-    };
-
-    return (
-      <Box
-        component="form"
-        sx={{ "& > :not(style)": { width: "300px" } }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField
-          size="small"
-          onKeyPress={handleKey} //отключение Enter
-          inputProps={{ style: { fontSize: 14 } }}
-          value={valuen}
-          onChange={handleChange}
-          variant="standard"
-        />
-      </Box>
-    );
-  };
 
   const WindSearsh = () => {
     return (
       <>
         <Box sx={styleServis}>
-          <Grid item container>
-            <Grid item xs={9.5} sx={styleP02}>
-              <InputPoisk />
-            </Grid>
-            <Grid item xs={0.1}></Grid>
-            <Grid item xs={2.4}>
-              <Button
-                sx={styleServisKnop}
-                variant="contained"
-                onClick={setFind}
-              >
-                <b>Поиск</b>
-              </Button>
-            </Grid>
-          </Grid>
+          <Button
+            sx={styleServisKnop}
+            variant="contained"
+            onClick={handleOpenSet}
+          >
+            <b>Поиск</b>
+          </Button>
         </Box>
-        {/* <Modal open={openSet} disableEnforceFocus onClose={handleCloseSet}>
+        <Modal open={openSet} disableEnforceFocus onClose={handleCloseSet}>
           <Box sx={styleSet}>
             <Box
               component="form"
@@ -285,40 +219,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
               <b>Найти</b>
             </Button>
           </Box>
-        </Modal> */}
-        {/* <Grid item container sx={styleSetAdress}>
-          <Grid item xs={9.5} sx={{ border: 0 }}>
-            <Box sx={styleSet}>
-              <Box
-                component="form"
-                sx={styleBoxForm}
-                noValidate
-                autoComplete="off"
-              >
-                <TextField
-                  size="small"
-                  onKeyPress={handleKey} //отключение Enter
-                  inputProps={{ style: { fontSize: 13.3 } }}
-                  value={valuen}
-                  onChange={handleChange}
-                  variant="standard"
-                  helperText="Отредактируйте адрес"
-                />
-              </Box>
-            </Box>
-          </Grid>
-          <Grid item xs sx={{ border: 0 }}>
-            <Box>
-              <Button
-                sx={styleInpKnop}
-                variant="contained"
-                onClick={handleCloseSetAdr}
-              >
-                Ввод
-              </Button>
-            </Box>
-          </Grid>
-        </Grid> */}
+        </Modal>
       </>
     );
   };
@@ -339,30 +240,47 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     },
   ];
 
-  // const [openSet, setOpenSet] = React.useState(false);
-  // const handleOpenSet = () => {
-  //   // setOpenLoader(false);
-  //   setOpenSet(true);
-  // };
+  const [openSet, setOpenSet] = React.useState(false);
+  const handleOpenSet = () => {
+    // setOpenLoader(false);
+    setOpenSet(true);
+  };
 
-  // const handleCloseSet = (event: any, reason: string) => {
-  //   if (reason !== "backdropClick") setOpenSet(false);
-  // };
+  const handleCloseSet = (event: any, reason: string) => {
+    if (reason !== "backdropClick") setOpenSet(false);
+  };
 
-  // const InpForm = () => {
-  //   return (
-  //     <TextField
-  //       size="small"
-  //       onKeyPress={handleKey}
-  //       label="Поиск"
-  //       inputProps={{ style: { fontSize: 14 } }} // font size of input text
-  //       InputLabelProps={{ style: { fontSize: 14 } }} // font size of input label
-  //       value={valuen}
-  //       onChange={handleChange}
-  //       variant="outlined"
-  //     />
-  //   );
-  // };
+  const setFind = () => {
+    setOpenSet(false);
+    setValue(3);
+    if (formSett) setOpenLoader(true);
+  };
+
+  const InpForm = () => {
+    const [valuen, setValuen] = React.useState(formSett);
+
+    const handleChange = (event: any) => {
+      formSett = event.target.value.trimStart(); // удаление пробелов в начале строки
+      setValuen(formSett);
+    };
+
+    const handleKey = (event: any) => {
+      if (event.key === "Enter") event.preventDefault();
+    };
+
+    return (
+      <TextField
+        size="small"
+        onKeyPress={handleKey}
+        label="Поиск"
+        inputProps={{ style: { fontSize: 14 } }} // font size of input text
+        InputLabelProps={{ style: { fontSize: 14 } }} // font size of input label
+        value={valuen}
+        onChange={handleChange}
+        variant="outlined"
+      />
+    );
+  };
 
   const [openLoader, setOpenLoader] = React.useState(false);
   const handleClose = () => {
@@ -391,7 +309,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     console.log("Loader");
     return (
       <Backdrop sx={styleBackdrop} open={openLoader} onClick={handleClose}>
-        <CircularProgress color="inherit" size={444} />
+        <CircularProgress color="inherit" size={212} />
       </Backdrop>
     );
   };
