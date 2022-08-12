@@ -1,4 +1,6 @@
 import React from "react";
+
+import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -13,12 +15,12 @@ import Logins from "./components/Logins";
 let extData = "__.__.____";
 
 let debug = false;
+let openSeans = false;
 
 const App = () => {
   const styleApp01 = {
     fontSize: 14,
     marginRight: 0.5,
-    //width: "18%",
     maxWidth: "140px",
     minWidth: "140px",
     maxHeight: "21px",
@@ -151,14 +153,16 @@ const App = () => {
 
   const [points, setPoints] = React.useState<Array<string>>([]);
   const [isOpen, setIsOpen] = React.useState(false);
-  //const ipAdress: string = 'http://localhost:3000/otladkaGlob.json';
-  let ipAdress = window.location.href;
-
-  let pageUrl = new URL(window.location.href);
-  console.log("!!!!", pageUrl, pageUrl.href);
-  if (pageUrl.href === "http://localhost:3000/") {
-    ipAdress = "http://localhost:3000/otladkaGlob.json";
-    debug = true;
+  const [ipAdress, setIpAdress] = React.useState(window.location.href);
+  
+  if (!openSeans) {
+    let pageUrl = new URL(window.location.href);
+    if (pageUrl.href === "http://localhost:3000/") {
+      setIpAdress("http://localhost:3000/otladkaGlob.json")
+      debug = true;
+    }
+    openSeans = true;
+    console.log("!!!!", pageUrl, pageUrl.href);
   }
 
   React.useEffect(() => {
@@ -166,32 +170,34 @@ const App = () => {
       axios.get(ipAdress).then(({ data }) => {
         console.log("data:", data);
         setPoints(data.fileNames);
-        setIsOpen(true);
       });
     } else {
       axios.post(ipAdress).then(({ data }) => {
         console.log("data:", data);
         setPoints(data.fileNames);
-        setIsOpen(true);
       });
     }
+    setIsOpen(true);
   }, [ipAdress]);
 
   const [value, setValue] = React.useState("0");
 
   return (
     <>
-      <TabContext value={value}>
-        <Box sx={{ marginLeft: 0.5, marginTop: 0.5 }}>
-          <Stack direction="row">
-            <ChoiceData />
-            <Box sx={styleApp02}>{extData}</Box>
-          </Stack>
-        </Box>
-        <TabPanel value="1">
-          <Logins logName={points[crossData]} debug={debug} />
-        </TabPanel>
-      </TabContext>
+      <Grid container sx={{ border: 0, marginTop: 0.5 }}>
+        <Grid item xs={12}>
+          <TabContext value={value}>
+            <Stack direction="row">
+              <ChoiceData />
+              <Box sx={styleApp02}>{extData}</Box>
+            </Stack>
+            {/* </Box> */}
+            <TabPanel value="1">
+              <Logins logName={points[crossData]} debug={debug} />
+            </TabPanel>
+          </TabContext>
+        </Grid>
+      </Grid>
     </>
   );
 };

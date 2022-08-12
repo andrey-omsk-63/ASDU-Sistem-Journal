@@ -8,7 +8,7 @@ export const styleXt04 = {
 };
 
 export const styleXTG02 = {
-  borderBottom: 1,
+  borderBottom: 0,
   borderColor: 'primary.main',
   textAlign: 'center',
   backgroundColor: '#C0C0C0',
@@ -16,7 +16,7 @@ export const styleXTG02 = {
 
 export const styleXTG021 = {
   borderRadius: 1,
-  borderBottom: 1,
+  borderBottom: 0,
   borderColor: 'primary.main',
   textAlign: 'center',
   backgroundColor: '#C0C0C0',
@@ -95,7 +95,6 @@ export const styleReset = {
   fontSize: 14,
   marginTop: -12,
   marginLeft: 33.5,
-  //width: '18%',
   maxHeight: '21px',
   minHeight: '21px',
   backgroundColor: '#F1F3F4',
@@ -107,10 +106,8 @@ export const styleServis = {
   fontSize: 14,
   marginTop: -5.6,
   marginLeft: 'auto',
-  //marginRight: 6,
   maxHeight: '21px',
   minHeight: '21px',
-  //width: '4%',
   maxWidth: '360px',
   minWidth: '360px',
 };
@@ -125,10 +122,16 @@ export const styleServisKnop = {
 };
 
 export const styleBoxGl = {
-  border: 2,
+  border: 0,
   fontSize: 12,
   marginTop: -2.4,
-  marginLeft: -2.5,
-  //marginRight: -2.5,
-  marginRight: -4,
+  marginLeft: -3,
+  marginRight: -3,
+};
+
+export const styleBoxHeader = {
+  border: 1,
+  borderRadius: 1,
+  borderColor: "primary.main",
+  backgroundColor: "#C0C0C0",
 };
