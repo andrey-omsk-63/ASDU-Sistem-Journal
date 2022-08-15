@@ -10,6 +10,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import axios from "axios";
 
+import LoginsSoobError from "./LoginsSoobError";
+
 import { styleBoxHeader, styleXTG02, styleXTG021 } from "./LoginsStyle";
 import { styleXTG04, styleXTG03, styleXTG033, styleBoxGl } from "./LoginsStyle";
 import { styleXTG044, styleBut01 } from "./LoginsStyle";
@@ -42,6 +44,8 @@ let formSett = "";
 
 let massPoints: Array<Line> = [];
 let massPointsEtalon: Array<Line> = [];
+let soob = "";
+let openSetErr = false;
 
 const Logins = (props: { logName: string; debug: boolean }) => {
   if (oldData !== props.logName) oldData = props.logName;
@@ -49,6 +53,10 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   const SetValue = (mode: number) => {
     setValue(mode);
     setOpenLoader(true);
+  };
+
+  const setOpenSetErr = (mode: boolean) => {
+    openSetErr = mode;
   };
 
   let resStr: any = [];
@@ -138,9 +146,14 @@ const Logins = (props: { logName: string; debug: boolean }) => {
                 masrab.push(massPoints[i]);
               }
             }
-            massPoints = [];
-            massPoints = masrab;
             Output();
+            if (masrab.length) {
+              massPoints = [];
+              massPoints = masrab;
+            } else {
+              soob = "По вашему запросу ничего не найдено";
+              setOpenSetErr(true);
+            }
           }
           //Output();
           break;
@@ -281,6 +294,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isRead, setIsRead] = React.useState(false);
   const [value, setValue] = React.useState(2);
+  //const [openSetErr, setOpenSetErr] = React.useState(false);
 
   let maskPoints: Array<Line> = [
     {
@@ -297,7 +311,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     setOpenLoader(true);
     setValue(4);
   };
-//============ Динама =====================================================
+  //============ Динама =====================================================
   const [openLoader, setOpenLoader] = React.useState(false);
   const handleClose = () => {
     setOpenLoader(false);
@@ -309,11 +323,11 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   };
 
   const Output = () => {
-    // React.useEffect(() => {
+    //React.useEffect(() => {
     setTimeout(() => {
       setOpenLoader(false);
     }, 100);
-    // }, []);
+    //}, []);
   };
 
   const Loader = () => {
@@ -323,7 +337,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
       </Backdrop>
     );
   };
-//=========================================================================
+  //=========================================================================
   const MainLogins = () => {
     return (
       <Box sx={styleBoxGl}>
@@ -331,14 +345,15 @@ const Logins = (props: { logName: string; debug: boolean }) => {
           <HeaderLogins />
         </Box>
         <Box sx={{ bgcolor: "#D4E6F3", overflowX: "auto", height: "90vh" }}>
-          {openLoader ? (
+          {/* {openLoader ? (
             <Loader />
-          ) : (
-            <Grid container item>
-              {resStr}
-            </Grid>
-          )}
+          ) : ( */}
+          <Grid container item>
+            {resStr}
+          </Grid>
+          {/* )} */}
         </Box>
+        {openSetErr && <LoginsSoobError sErr={soob} setOpen={setOpenSetErr} />}
       </Box>
     );
   };
@@ -370,7 +385,8 @@ const Logins = (props: { logName: string; debug: boolean }) => {
         <b>Сброс настроек</b>
       </Button>
       <WindSearsh />
-      <MainLogins />
+      {!openLoader && <MainLogins />}
+      {openLoader && <Loader />}
     </>
   );
 };
