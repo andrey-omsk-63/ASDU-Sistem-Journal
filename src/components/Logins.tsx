@@ -344,14 +344,19 @@ const Logins = (props: { logName: string; debug: boolean }) => {
         <Box sx={styleBoxHeader}>
           <HeaderLogins />
         </Box>
-        <Box sx={{ bgcolor: "#D4E6F3", overflowX: "auto", height: "90vh" }}>
-          {/* {openLoader ? (
-            <Loader />
-          ) : ( */}
+        {/* <Box sx={{ bgcolor: "#D4E6F3", overflowX: "auto", height: "90vh" }}> */}
+        <Box
+          sx={{
+            "a: focus": {
+              bgcolor: "#D4E6F3",
+              overflowX: "auto",
+              height: "90vh",
+            },
+          }}
+        >
           <Grid container item>
             {resStr}
           </Grid>
-          {/* )} */}
         </Box>
         {openSetErr && <LoginsSoobError sErr={soob} setOpen={setOpenSetErr} />}
       </Box>
