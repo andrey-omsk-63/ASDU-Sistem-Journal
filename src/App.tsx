@@ -158,11 +158,11 @@ const App = () => {
   if (!openSeans) {
     let pageUrl = new URL(window.location.href);
     if (pageUrl.href === "http://localhost:3000/") {
+      console.log('РЕЖИМ ОТЛАДКИ!!!')
       setIpAdress("http://localhost:3000/otladkaGlob.json")
       debug = true;
     }
     openSeans = true;
-    console.log("!!!!", pageUrl, pageUrl.href);
   }
 
   React.useEffect(() => {

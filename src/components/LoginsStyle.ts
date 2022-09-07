@@ -123,6 +123,7 @@ export const styleServisKnop = {
 
 export const styleBoxGl = {
   border: 0,
+  //height: "93vh",
   fontSize: 12,
   marginTop: -2.4,
   marginLeft: -3,

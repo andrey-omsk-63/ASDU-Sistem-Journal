@@ -93,9 +93,9 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     if (isOpen) {
       for (let i = 0; i < massPoints.length; i++) {
         resStr.push(
-          <Grid key={Math.random()} item container xs={12}>
+          //  <Grid key={Math.random()} tabIndex={1} container item>
+          <Grid key={Math.random()} container item>
             <Grid
-              key={Math.random()}
               item
               xs={1.5}
               sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}
@@ -103,7 +103,6 @@ const Logins = (props: { logName: string; debug: boolean }) => {
               <b>{massPoints[i].type}</b>
             </Grid>
             <Grid
-              key={Math.random()}
               item
               xs={1}
               sx={massPoints[i].haveError ? styleXTG033 : styleXTG03}
@@ -111,7 +110,6 @@ const Logins = (props: { logName: string; debug: boolean }) => {
               <b>{massPoints[i].time}</b>
             </Grid>
             <Grid
-              key={Math.random()}
               item
               xs={9.5}
               sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}
@@ -344,20 +342,31 @@ const Logins = (props: { logName: string; debug: boolean }) => {
         <Box sx={styleBoxHeader}>
           <HeaderLogins />
         </Box>
-        {/* <Box sx={{ bgcolor: "#D4E6F3", overflowX: "auto", height: "90vh" }}> */}
-        <Box
-          sx={{
-            "a: focus": {
+
+        <Box sx={{ height: "89vh", border: 0 }}>
+          <Box
+            sx={{
+              //": focus": {
               bgcolor: "#D4E6F3",
               overflowX: "auto",
-              height: "90vh",
-            },
-          }}
-        >
-          <Grid container item>
-            {resStr}
-          </Grid>
+              height: "89vh",
+              //},
+            }}
+          >
+            <Box
+              sx={{
+                ": focus": {
+                   overflowX: "auto",
+                   height: "89vh",
+                },
+              }}
+            >
+              {/* <div tabIndex={1}>{resStr}</div> */}
+              {resStr}
+            </Box>
+          </Box>
         </Box>
+
         {openSetErr && <LoginsSoobError sErr={soob} setOpen={setOpenSetErr} />}
       </Box>
     );

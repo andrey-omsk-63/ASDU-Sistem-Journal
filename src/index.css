@@ -35,7 +35,7 @@ code {
 ::-webkit-scrollbar-button {
   /* background-image: url(''); */
   background-repeat: no-repeat;
-  width: 6px;
+  width: 7px;
   height: 0px;
 }
 
@@ -67,7 +67,7 @@ code {
   width: 6px;
   height: 6px;
 }
-.burger-paradise-waitt {
+/* .burger-paradise-waitt {
   border: 3px;
   display: grid;
   grid-template-columns: 2fr 1fr 1.5fr;
@@ -76,4 +76,4 @@ code {
   max-width: 1500px;
   margin: 0 auto;
   margin-top: 2vh;
-}
+} */
