@@ -255,7 +255,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
         <TextField
           size="small"
           onKeyPress={handleKey} //отключение Enter
-          inputProps={{ style: { fontSize: 14 } }}
+          InputProps={{ disableUnderline: true, style: { fontSize: 14 } }}
           value={valuen}
           onChange={handleChange}
           variant="standard"
@@ -343,21 +343,21 @@ const Logins = (props: { logName: string; debug: boolean }) => {
           <HeaderLogins />
         </Box>
 
-        <Box sx={{ height: "89vh", border: 0 }}>
+        <Box sx={{ height: "92vh", border: 0 }}>
           <Box
             sx={{
               //": focus": {
               bgcolor: "#D4E6F3",
               overflowX: "auto",
-              height: "89vh",
+              height: "92vh",
               //},
             }}
           >
             <Box
               sx={{
                 ": focus": {
-                   overflowX: "auto",
-                   height: "89vh",
+                  overflowX: "auto",
+                  height: "92vh",
                 },
               }}
             >
