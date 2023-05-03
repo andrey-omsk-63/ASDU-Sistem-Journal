@@ -144,7 +144,7 @@ const App = () => {
         </Button>
         <Modal open={open}>
           <Box sx={styleModal}>
-            <Stack direction="column">{SpisData()}</Stack>
+            <Box sx={{ overflowX: "auto", height: "88vh" }}>{SpisData()}</Box>
           </Box>
         </Modal>
       </>
@@ -154,12 +154,12 @@ const App = () => {
   const [points, setPoints] = React.useState<Array<string>>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   const [ipAdress, setIpAdress] = React.useState(window.location.href);
-  
+
   if (!openSeans) {
     let pageUrl = new URL(window.location.href);
     if (pageUrl.href === "http://localhost:3000/") {
-      console.log('РЕЖИМ ОТЛАДКИ!!!')
-      setIpAdress("http://localhost:3000/otladkaGlob.json")
+      console.log("РЕЖИМ ОТЛАДКИ!!!");
+      setIpAdress("http://localhost:3000/otladkaGlob.json");
       debug = true;
     }
     openSeans = true;

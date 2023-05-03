@@ -347,9 +347,10 @@ const Logins = (props: { logName: string; debug: boolean }) => {
           <Box
             sx={{
               //": focus": {
-              bgcolor: "#D4E6F3",
+              //bgcolor: "#D4E6F3",
+              bgcolor: "#EDF4FA",
               overflowX: "auto",
-              height: "92vh",
+              height: "94.5vh",
               //},
             }}
           >
@@ -357,7 +358,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
               sx={{
                 ": focus": {
                   overflowX: "auto",
-                  height: "92vh",
+                  height: "94.5vh",
                 },
               }}
             >
