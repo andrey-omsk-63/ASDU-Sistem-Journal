@@ -16,70 +16,94 @@ let extData = "__.__.____";
 
 let debug = false;
 let openSeans = false;
+let nomIllum = -1;
 
 const App = () => {
   const styleApp01 = {
     fontSize: 14,
     marginRight: 0.5,
-    maxWidth: "140px",
-    minWidth: "140px",
+    width: "140px",
     maxHeight: "21px",
     minHeight: "21px",
-    backgroundColor: "#F1F3F4",
+    backgroundColor: "#E9F5D8", // светло салатовый
+    border: "1px solid #000",
+    borderColor: "#d4d4d4", // серый
+    borderRadius: 1,
     color: "black",
     textTransform: "unset !important",
+    boxShadow: 1,
   };
 
   const styleApp02 = {
     fontSize: 14,
     marginRight: 0.5,
-    borderRadius: 1,
-    //width: "12%",
-    maxWidth: "140px",
-    minWidth: "140px",
-    maxHeight: "21px",
-    minHeight: "21px",
+    width: "140px",
+    maxHeight: "18px",
+    minHeight: "18px",
     backgroundColor: "#FFE295",
+    border: "1px solid #000",
+    borderColor: "#d4d4d4", // серый
+    borderRadius: 1,
     color: "black",
     textAlign: "center",
+    boxShadow: 3,
   };
 
-  const styleModalMenu = {
+  const styleModalMenu01 = {
     fontSize: 13.9,
     maxHeight: "20px",
     minHeight: "20px",
-    backgroundColor: "#F1F3F4",
+    bgcolor: "#BAE186", // тёмно-салатовый
+    border: "1px solid #000",
+    borderColor: "#93D145", // ярко-салатовый
+    borderRadius: 1,
     color: "black",
-    marginRight: 1,
-    marginBottom: 0.2,
+    //marginRight: 1.5,
+    marginBottom: 0.3,
     textTransform: "unset !important",
+    boxShadow: 12,
+  };
+
+  const styleModalMenu02 = {
+    fontSize: 13.9,
+    maxHeight: "20px",
+    minHeight: "20px",
+    backgroundColor: "#E9F5D8", // светло салатовый
+    border: "1px solid #000",
+    borderColor: "#d4d4d4", // серый
+    borderRadius: 1,
+    color: "black",
+    //marginRight: 1,
+    marginBottom: 0.3,
+    textTransform: "unset !important",
+    boxShadow: 1,
   };
 
   const styleModal = {
+    outline: "none",
     position: "relative",
-    bottom: "-50vh",
-    marginLeft: "60vh",
+    marginLeft: "16vh",
+    top: "50%",
     transform: "translate(-50%, -50%)",
-    width: 150,
+    width: 121,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    border: "1px solid #000",
     borderColor: "primary.main",
-    borderRadius: 2,
+    borderRadius: 1,
     boxShadow: 24,
     p: 3,
   };
 
   const styleModalEnd = {
     position: "absolute",
-    maxWidth: "3vh",
-    minWidth: "3vh",
-    maxHeight: "16px",
-    minHeight: "16px",
-    backgroundColor: "fff",
+    top: "-0.2%",
+    left: "auto",
+    right: "-0%",
+    height: "21px",
+    maxWidth: "2%",
+    minWidth: "2%",
     color: "black",
-    top: "0.5%",
-    left: "88%",
-    fontSize: 15,
+    fontSize: 14,
   };
 
   const [open, setOpen] = React.useState(false);
@@ -88,6 +112,7 @@ const App = () => {
   const handleOpen = () => setOpen(true);
 
   const handleClose = (numer: number) => {
+    nomIllum = numer;
     if (numer !== 777) {
       setCrossData(numer);
       setValue("1");
@@ -113,20 +138,17 @@ const App = () => {
     );
     if (isOpen) {
       for (let i = 0; i < points.length; i++) {
-        stroka = points[points.length - i - 1];
+        let I = points.length - i - 1;
+        stroka = points[I];
         strDat =
           stroka.slice(11, 13) +
           "." +
           stroka.slice(8, 10) +
           "." +
           stroka.slice(3, 7);
+        let illum = nomIllum === I ? styleModalMenu01 : styleModalMenu02;
         resStr.push(
-          <Button
-            key={i}
-            sx={styleModalMenu}
-            variant="contained"
-            onClick={() => handleClose(points.length - i - 1)}
-          >
+          <Button key={i} sx={illum} onClick={() => handleClose(I)}>
             <b>{strDat}</b>
           </Button>
         );
@@ -139,10 +161,10 @@ const App = () => {
   const ChoiceData = () => {
     return (
       <>
-        <Button sx={styleApp01} variant="contained" onClick={handleOpen}>
+        <Button sx={styleApp01} onClick={handleOpen}>
           <b>Выбор по дате</b>
         </Button>
-        <Modal open={open}>
+        <Modal open={open} hideBackdrop>
           <Box sx={styleModal}>
             <Box sx={{ overflowX: "auto", height: "88vh" }}>{SpisData()}</Box>
           </Box>
@@ -184,14 +206,15 @@ const App = () => {
 
   return (
     <>
-      <Grid container sx={{ border: 0, marginTop: 0.5 }}>
+      <Grid container sx={{ border: 0, marginTop: 0 }}>
         <Grid item xs={12}>
           <TabContext value={value}>
             <Stack direction="row">
               <ChoiceData />
-              <Box sx={styleApp02}>{extData}</Box>
+              <Box sx={styleApp02}>
+                <em>За {extData}</em>
+              </Box>
             </Stack>
-            {/* </Box> */}
             <TabPanel value="1">
               <Logins logName={points[crossData]} debug={debug} />
             </TabPanel>

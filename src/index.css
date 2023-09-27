@@ -5,7 +5,9 @@ body {
   width: 100%;
   /* background-color: #024492; */
   /* background: linear-gradient(45deg, #eecfba, #024492 90%); */
-  background: linear-gradient(45deg, #f0e6e0 30%, #0384cf 90%);
+  /* background: linear-gradient(45deg, #f0e6e0 30%, #0384cf 90%); */
+  /* background: linear-gradient(45deg, #f0e6e0 30%, #BAE186 90%); */
+  background: linear-gradient(125deg, #DCE0AB 30%,#97BB92 52%, #D2D8B7 85%);
   background-repeat: no-repeat;
   background-attachment: fixed;
 

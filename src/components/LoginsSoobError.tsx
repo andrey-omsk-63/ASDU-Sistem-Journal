@@ -6,51 +6,63 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 
 //import { styleModalEnd, styleSetInf } from "./components/MainMapStyle";
+//const LoginsSoobError = (props: { open: boolean; sErr: string; setOpen: any }) => {
+export const LoginsSoobError = (
+  open: boolean,
+  sErr: string,
+  setOpen: Function
+) => {
+  //const [openSet, setOpenSet] = React.useState(props.open);
 
-const LoginsSoobError = (props: { sErr: string; setOpen: any }) => {
-  const [openSet, setOpenSet] = React.useState(true);
- 
+  console.log("!!!!LoginsSoobError:", open);
+
   const styleModalEnd = {
-    position: 'absolute',
-    top: '0%',
-    left: 'auto',
-    right: '-0%',
-    height: '21px',
-    maxWidth: '2%',
-    minWidth: '2%',
-    color: 'black',
+    position: "absolute",
+    top: "0%",
+    left: "auto",
+    right: "-0%",
+    height: "21px",
+    maxWidth: "2%",
+    minWidth: "2%",
+    color: "black",
   };
-  
+
   const styleSetInf = {
-    position: 'absolute',
-    marginTop: '21vh',
-    marginLeft: '36vh',
+    position: "absolute",
+    marginTop: "21vh",
+    marginLeft: "36vh",
     width: 340,
-    bgcolor: 'background.paper',
-    border: '3px solid #000',
-    borderColor: 'primary.main',
-    borderRadius: 2,
+    bgcolor: "background.paper",
+    border: "1px solid #000",
+    borderColor: "primary.main",
+    borderRadius: 1,
     boxShadow: 24,
     p: 1.5,
   };
 
-  const handleClose = () => {
-    props.setOpen(false);
-    setOpenSet(false);
+  const handleCloseEnd = (mode: number) => {
+    console.log("handleCloseEnd", mode);
+    setOpen(false);
+    //setOpenSet(false);
+  };
+
+  const handleClose = (event: any, reason: string) => {
+    console.log("handleClose");
+    if (reason === "escapeKeyDown") handleCloseEnd(1);
   };
 
   return (
-    <Modal open={openSet} onClose={handleClose} hideBackdrop>
+    <Modal open={open} onClose={handleClose} hideBackdrop={false}>
       <Box sx={styleSetInf}>
-        <Button sx={styleModalEnd} onClick={handleClose}>
+        <Button sx={styleModalEnd} onClick={() => handleCloseEnd(1)}>
           <b>&#10006;</b>
         </Button>
         <Typography variant="h6" sx={{ textAlign: "center", color: "red" }}>
-          {props.sErr}
+          {sErr}
         </Typography>
       </Box>
     </Modal>
   );
 };
 
-export default LoginsSoobError;
+//export default LoginsSoobError;

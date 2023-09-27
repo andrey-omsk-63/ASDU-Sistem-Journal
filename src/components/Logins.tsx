@@ -10,12 +10,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import axios from "axios";
 
-import LoginsSoobError from "./LoginsSoobError";
+import { LoginsSoobError } from "./LoginsSoobError";
 
 import { styleBoxHeader, styleXTG02, styleXTG021 } from "./LoginsStyle";
 import { styleXTG04, styleXTG03, styleXTG033, styleBoxGl } from "./LoginsStyle";
-import { styleXTG044, styleBut01 } from "./LoginsStyle";
+import { styleXTG044, styleBut01, styleBut02 } from "./LoginsStyle";
 import { styleReset, styleServis, styleServisKnop } from "./LoginsStyle";
+import { styleP02, styleBoxResStr, styleBoxFocus } from "./LoginsStyle";
 
 export interface LogMessage {
   logData: LogDatum[];
@@ -41,43 +42,64 @@ export interface Line {
 
 let oldData = "-1";
 let formSett = "";
+let formSettOld = "";
 
 let massPoints: Array<Line> = [];
 let massPointsEtalon: Array<Line> = [];
 let soob = "";
-let openSetErr = false;
+//let openSetErr = false;
+let nomIllum = 2;
 
 const Logins = (props: { logName: string; debug: boolean }) => {
-  if (oldData !== props.logName) oldData = props.logName;
+  const [points, setPoints] = React.useState<Array<LogDatum>>([]);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [isRead, setIsRead] = React.useState(false);
+  //const [trigger, setTrigger] = React.useState(false);
+  const [value, setValue] = React.useState(2);
+  const [openSetErr, setOpenSetErr] = React.useState(false);
+
+  let maskPoints: Array<Line> = [
+    {
+      num: 0,
+      pnum: 0,
+      type: "",
+      time: "",
+      info: "",
+      haveError: false,
+    },
+  ];
+
+  if (oldData !== props.logName) {
+    oldData = props.logName;
+    nomIllum = 2;
+    //openSetErr = false;
+    setOpenSetErr(false);
+  }
+
+  // const setOpenSetErr = (mode: boolean) => {
+  //   openSetErr = mode;
+  //   //setTrigger(!trigger)
+  // };
 
   const SetValue = (mode: number) => {
+    nomIllum = mode;
     setValue(mode);
     setOpenLoader(true);
   };
 
-  const setOpenSetErr = (mode: boolean) => {
-    openSetErr = mode;
-  };
-
   let resStr: any = [];
   const HeaderLogins = () => {
+    let styleType = nomIllum === 1 ? styleBut01 : styleBut02;
+    let styleTime = nomIllum === 2 ? styleBut01 : styleBut02;
     return (
       <Grid item container xs={12}>
         <Grid item xs={1.5} sx={styleXTG021}>
-          <Button
-            sx={styleBut01}
-            variant="contained"
-            onClick={() => SetValue(1)}
-          >
+          <Button sx={styleType} onClick={() => SetValue(1)}>
             <b>Тип</b>
           </Button>
         </Grid>
         <Grid item xs={1} sx={styleXTG02}>
-          <Button
-            sx={styleBut01}
-            variant="contained"
-            onClick={() => SetValue(2)}
-          >
+          <Button sx={styleTime} onClick={() => SetValue(2)}>
             <b>Время</b>
           </Button>
         </Grid>
@@ -92,28 +114,17 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     resStr = [];
     if (isOpen) {
       for (let i = 0; i < massPoints.length; i++) {
+        let style4 = massPoints[i].haveError ? styleXTG044 : styleXTG04;
+        let style3 = massPoints[i].haveError ? styleXTG033 : styleXTG03;
         resStr.push(
-          //  <Grid key={Math.random()} tabIndex={1} container item>
-          <Grid key={Math.random()} container item>
-            <Grid
-              item
-              xs={1.5}
-              sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}
-            >
+          <Grid key={i} container item>
+            <Grid item xs={1.5} sx={style4}>
               <b>{massPoints[i].type}</b>
             </Grid>
-            <Grid
-              item
-              xs={1}
-              sx={massPoints[i].haveError ? styleXTG033 : styleXTG03}
-            >
+            <Grid item xs={1} sx={style3}>
               <b>{massPoints[i].time}</b>
             </Grid>
-            <Grid
-              item
-              xs={9.5}
-              sx={massPoints[i].haveError ? styleXTG044 : styleXTG04}
-            >
+            <Grid item xs={9.5} sx={style4}>
               <b>{massPoints[i].info}</b>
             </Grid>
           </Grid>
@@ -135,7 +146,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
           Output();
           break;
         case 3: // поиск в сообщениях
-          console.log("formSett:", formSett);
+          //console.log("formSett:", formSett);
           if (formSett) {
             let masrab: Array<Line> = [];
             for (let i = 0; i < massPoints.length; i++) {
@@ -151,6 +162,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
             } else {
               soob = "По вашему запросу ничего не найдено";
               setOpenSetErr(true);
+              formSett = "";
             }
           }
           //Output();
@@ -158,7 +170,9 @@ const Logins = (props: { logName: string; debug: boolean }) => {
         case 4: // сброс
           massPoints = massPointsEtalon;
           setValue(2);
+          nomIllum = 2;
           formSett = "";
+          formSettOld = "";
           Output();
           break;
       }
@@ -217,24 +231,15 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   };
 
   const setFind = () => {
+    if (!formSett) formSett = formSettOld;
     if (formSett) {
       setValue(3);
       setOpenLoader(true);
     }
   };
 
-  const styleP02 = {
-    border: 0,
-    backgroundColor: "#FFFBE5",
-    marginTop: -2.75,
-    maxHeight: "21px",
-    minHeight: "21px",
-    maxWidth: "75px",
-    minWidth: "75px",
-  };
-
   const InputPoisk = () => {
-    const [valuen, setValuen] = React.useState(formSett);
+    const [valuen, setValuen] = React.useState(formSettOld);
 
     const handleKey = (event: any) => {
       if (event.key === "Enter") event.preventDefault();
@@ -242,15 +247,16 @@ const Logins = (props: { logName: string; debug: boolean }) => {
 
     const handleChange = (event: any) => {
       formSett = event.target.value.trimStart(); // удаление пробелов в начале строки
-      setValuen(formSett);
+      setValuen(event.target.value.trimStart());
+      formSettOld = formSett;
     };
 
     return (
       <Box
         component="form"
         sx={{ "& > :not(style)": { width: "280px" } }}
-        noValidate
-        autoComplete="off"
+        // noValidate
+        // autoComplete="off"
       >
         <TextField
           size="small"
@@ -274,11 +280,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
             </Grid>
             <Grid item xs={0.1}></Grid>
             <Grid item xs={2.4}>
-              <Button
-                sx={styleServisKnop}
-                variant="contained"
-                onClick={setFind}
-              >
+              <Button sx={styleServisKnop} onClick={setFind}>
                 <b>Поиск</b>
               </Button>
             </Grid>
@@ -287,23 +289,6 @@ const Logins = (props: { logName: string; debug: boolean }) => {
       </>
     );
   };
-
-  const [points, setPoints] = React.useState<Array<LogDatum>>([]);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [isRead, setIsRead] = React.useState(false);
-  const [value, setValue] = React.useState(2);
-  //const [openSetErr, setOpenSetErr] = React.useState(false);
-
-  let maskPoints: Array<Line> = [
-    {
-      num: 0,
-      pnum: 0,
-      type: "",
-      time: "",
-      info: "",
-      haveError: false,
-    },
-  ];
 
   const handleCloseSbros = () => {
     setOpenLoader(true);
@@ -336,6 +321,12 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     );
   };
   //=========================================================================
+  const SetOpenSetErr = (mode: boolean) => {
+    console.log("SetOpenSetErr:", mode);
+    //openSetErr = false;
+    setOpenSetErr(mode);
+  };
+
   const MainLogins = () => {
     return (
       <Box sx={styleBoxGl}>
@@ -343,32 +334,12 @@ const Logins = (props: { logName: string; debug: boolean }) => {
           <HeaderLogins />
         </Box>
 
-        <Box sx={{ height: "92vh", border: 0 }}>
-          <Box
-            sx={{
-              //": focus": {
-              //bgcolor: "#D4E6F3",
-              bgcolor: "#EDF4FA",
-              overflowX: "auto",
-              height: "94.5vh",
-              //},
-            }}
-          >
-            <Box
-              sx={{
-                ": focus": {
-                  overflowX: "auto",
-                  height: "94.5vh",
-                },
-              }}
-            >
-              {/* <div tabIndex={1}>{resStr}</div> */}
-              {resStr}
-            </Box>
+        <Box sx={{ height: "92vh" }}>
+          <Box sx={styleBoxResStr}>
+            <Box sx={styleBoxFocus}>{resStr}</Box>
           </Box>
         </Box>
-
-        {openSetErr && <LoginsSoobError sErr={soob} setOpen={setOpenSetErr} />}
+        {openSetErr && <>{LoginsSoobError(openSetErr, soob, SetOpenSetErr)} </>}
       </Box>
     );
   };
@@ -396,7 +367,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
 
   return (
     <>
-      <Button sx={styleReset} variant="contained" onClick={handleCloseSbros}>
+      <Button sx={styleReset} onClick={handleCloseSbros}>
         <b>Сброс настроек</b>
       </Button>
       <WindSearsh />
