@@ -14,7 +14,7 @@ export const LoginsSoobError = (
 ) => {
   //const [openSet, setOpenSet] = React.useState(props.open);
 
-  console.log("!!!!LoginsSoobError:", open);
+  //console.log("!!!!LoginsSoobError:", open);
 
   const styleModalEnd = {
     position: "absolute",
@@ -41,7 +41,7 @@ export const LoginsSoobError = (
   };
 
   const handleCloseEnd = (mode: number) => {
-    console.log("handleCloseEnd", mode);
+    //console.log("handleCloseEnd", mode);
     setOpen(false);
     //setOpenSet(false);
   };

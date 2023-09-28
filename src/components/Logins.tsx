@@ -49,36 +49,26 @@ let massPointsEtalon: Array<Line> = [];
 let soob = "";
 //let openSetErr = false;
 let nomIllum = 2;
+let resStr: any = [];
 
 const Logins = (props: { logName: string; debug: boolean }) => {
   const [points, setPoints] = React.useState<Array<LogDatum>>([]);
   const [isOpen, setIsOpen] = React.useState(false);
   const [isRead, setIsRead] = React.useState(false);
-  //const [trigger, setTrigger] = React.useState(false);
   const [value, setValue] = React.useState(2);
   const [openSetErr, setOpenSetErr] = React.useState(false);
-
-  let maskPoints: Array<Line> = [
-    {
-      num: 0,
-      pnum: 0,
-      type: "",
-      time: "",
-      info: "",
-      haveError: false,
-    },
-  ];
-
+  //============ Инициализация ======================
   if (oldData !== props.logName) {
     oldData = props.logName;
     nomIllum = 2;
+    formSett = "";
+    formSettOld = "";
     //openSetErr = false;
     setOpenSetErr(false);
   }
-
+  //=================================================
   // const setOpenSetErr = (mode: boolean) => {
   //   openSetErr = mode;
-  //   //setTrigger(!trigger)
   // };
 
   const SetValue = (mode: number) => {
@@ -87,7 +77,14 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     setOpenLoader(true);
   };
 
-  let resStr: any = [];
+  const ContentStrokaLogins = (xss: number, soob: any, style: any) => {
+    return (
+      <Grid item xs={xss} sx={style}>
+        <b>{soob}</b>
+      </Grid>
+    );
+  };
+
   const HeaderLogins = () => {
     let styleType = nomIllum === 1 ? styleBut01 : styleBut02;
     let styleTime = nomIllum === 2 ? styleBut01 : styleBut02;
@@ -103,9 +100,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
             <b>Время</b>
           </Button>
         </Grid>
-        <Grid item xs={2} sx={styleXTG021}>
-          <b>Сообщение</b>
-        </Grid>
+        {ContentStrokaLogins(2, "Сообщение", styleXTG021)}
       </Grid>
     );
   };
@@ -118,15 +113,9 @@ const Logins = (props: { logName: string; debug: boolean }) => {
         let style3 = massPoints[i].haveError ? styleXTG033 : styleXTG03;
         resStr.push(
           <Grid key={i} container item>
-            <Grid item xs={1.5} sx={style4}>
-              <b>{massPoints[i].type}</b>
-            </Grid>
-            <Grid item xs={1} sx={style3}>
-              <b>{massPoints[i].time}</b>
-            </Grid>
-            <Grid item xs={9.5} sx={style4}>
-              <b>{massPoints[i].info}</b>
-            </Grid>
+            {ContentStrokaLogins(1.5, massPoints[i].type, style4)}
+            {ContentStrokaLogins(1, massPoints[i].time, style3)}
+            {ContentStrokaLogins(9.5, massPoints[i].info, style4)}
           </Grid>
         );
       }
@@ -139,14 +128,11 @@ const Logins = (props: { logName: string; debug: boolean }) => {
       switch (valueSort) {
         case 1: // сортировка по type
           massPoints.sort((a, b) => a.num - b.num);
-          Output();
           break;
         case 2: // сортировка по time
           massPoints.sort((a, b) => a.pnum - b.pnum);
-          Output();
           break;
         case 3: // поиск в сообщениях
-          //console.log("formSett:", formSett);
           if (formSett) {
             let masrab: Array<Line> = [];
             for (let i = 0; i < massPoints.length; i++) {
@@ -155,7 +141,6 @@ const Logins = (props: { logName: string; debug: boolean }) => {
                 masrab.push(massPoints[i]);
               }
             }
-            Output();
             if (masrab.length) {
               massPoints = [];
               massPoints = masrab;
@@ -165,7 +150,6 @@ const Logins = (props: { logName: string; debug: boolean }) => {
               formSett = "";
             }
           }
-          //Output();
           break;
         case 4: // сброс
           massPoints = massPointsEtalon;
@@ -173,9 +157,9 @@ const Logins = (props: { logName: string; debug: boolean }) => {
           nomIllum = 2;
           formSett = "";
           formSettOld = "";
-          Output();
           break;
       }
+      Output();
     }
   };
 
@@ -184,7 +168,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     let oldTime = "";
 
     for (let i = 0; i < points.length; i++) {
-      maskPoints = [
+      let maskPoints = [
         {
           num: 0,
           pnum: i,
@@ -252,12 +236,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     };
 
     return (
-      <Box
-        component="form"
-        sx={{ "& > :not(style)": { width: "280px" } }}
-        // noValidate
-        // autoComplete="off"
-      >
+      <Box component="form">
         <TextField
           size="small"
           onKeyPress={handleKey} //отключение Enter
@@ -272,21 +251,19 @@ const Logins = (props: { logName: string; debug: boolean }) => {
 
   const WindSearsh = () => {
     return (
-      <>
-        <Box sx={styleServis}>
-          <Grid item container>
-            <Grid item xs={9.5} sx={styleP02}>
-              <InputPoisk />
-            </Grid>
-            <Grid item xs={0.1}></Grid>
-            <Grid item xs={2.4}>
-              <Button sx={styleServisKnop} onClick={setFind}>
-                <b>Поиск</b>
-              </Button>
-            </Grid>
+      <Box sx={styleServis}>
+        <Grid item container>
+          <Grid item xs={9.5} sx={styleP02}>
+            <InputPoisk />
           </Grid>
-        </Box>
-      </>
+          <Grid item xs={0.1}></Grid>
+          <Grid item xs={2.4}>
+            <Button sx={styleServisKnop} onClick={setFind}>
+              <b>Поиск</b>
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
     );
   };
 
@@ -294,7 +271,26 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     setOpenLoader(true);
     setValue(4);
   };
-  //============ Динама =====================================================
+
+  const SetOpenSetErr = (mode: boolean) => {
+    //openSetErr = false;
+    setOpenSetErr(mode);
+  };
+
+  const MainLogins = () => {
+    return (
+      <Box sx={styleBoxGl}>
+        <Box sx={styleBoxHeader}>{HeaderLogins()}</Box>
+        <Box sx={{ height: "92vh" }}>
+          <Box sx={styleBoxResStr}>
+            <Box sx={styleBoxFocus}>{resStr}</Box>
+          </Box>
+        </Box>
+        {openSetErr && <>{LoginsSoobError(openSetErr, soob, SetOpenSetErr)} </>}
+      </Box>
+    );
+  };
+  //============ Динама =============================
   const [openLoader, setOpenLoader] = React.useState(false);
   const handleClose = () => {
     setOpenLoader(false);
@@ -320,30 +316,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
       </Backdrop>
     );
   };
-  //=========================================================================
-  const SetOpenSetErr = (mode: boolean) => {
-    console.log("SetOpenSetErr:", mode);
-    //openSetErr = false;
-    setOpenSetErr(mode);
-  };
-
-  const MainLogins = () => {
-    return (
-      <Box sx={styleBoxGl}>
-        <Box sx={styleBoxHeader}>
-          <HeaderLogins />
-        </Box>
-
-        <Box sx={{ height: "92vh" }}>
-          <Box sx={styleBoxResStr}>
-            <Box sx={styleBoxFocus}>{resStr}</Box>
-          </Box>
-        </Box>
-        {openSetErr && <>{LoginsSoobError(openSetErr, soob, SetOpenSetErr)} </>}
-      </Box>
-    );
-  };
-
+  //============ Чтение страницы журнала ============
   let ipAdress: string =
     window.location.href + "/info?fileName=" + props.logName;
   if (props.debug) ipAdress = "http://localhost:3000/otlmess.json";
@@ -356,10 +329,11 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     setIsOpen(true);
     setValue(2);
   }, [ipAdress]);
-
+  //=================================================
   if (isOpen && isRead) {
     setOpenLoader(true);
-    MakeMassPoints();
+    MakeMassPoints(); // создание матрицы страницы
+    console.log('создание матрицы страницы')
   }
 
   TabsLogins(value);
@@ -370,9 +344,9 @@ const Logins = (props: { logName: string; debug: boolean }) => {
       <Button sx={styleReset} onClick={handleCloseSbros}>
         <b>Сброс настроек</b>
       </Button>
-      <WindSearsh />
-      {!openLoader && <MainLogins />}
-      {openLoader && <Loader />}
+      {WindSearsh()}
+      {!openLoader && <>{MainLogins()} </>}
+      {openLoader && <>{Loader()}</>}
     </>
   );
 };

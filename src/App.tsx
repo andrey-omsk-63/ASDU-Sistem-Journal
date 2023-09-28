@@ -17,6 +17,7 @@ let extData = "__.__.____";
 let debug = false;
 let openSeans = false;
 let nomIllum = -1;
+let HideBackdrop = true;
 
 const App = () => {
   const styleApp01 = {
@@ -35,7 +36,7 @@ const App = () => {
   };
 
   const styleApp02 = {
-    fontSize: 14,
+    fontSize: 12.9,
     marginRight: 0.5,
     width: "140px",
     maxHeight: "18px",
@@ -86,7 +87,7 @@ const App = () => {
     top: "50%",
     transform: "translate(-50%, -50%)",
     width: 121,
-    bgcolor: "background.paper",
+    bgcolor: "#eef4f9",
     border: "1px solid #000",
     borderColor: "primary.main",
     borderRadius: 1,
@@ -113,6 +114,7 @@ const App = () => {
 
   const handleClose = (numer: number) => {
     nomIllum = numer;
+    HideBackdrop = false;
     if (numer !== 777) {
       setCrossData(numer);
       setValue("1");
@@ -164,7 +166,7 @@ const App = () => {
         <Button sx={styleApp01} onClick={handleOpen}>
           <b>Выбор по дате</b>
         </Button>
-        <Modal open={open} hideBackdrop>
+        <Modal open={open} hideBackdrop={HideBackdrop}>
           <Box sx={styleModal}>
             <Box sx={{ overflowX: "auto", height: "88vh" }}>{SpisData()}</Box>
           </Box>
@@ -212,7 +214,7 @@ const App = () => {
             <Stack direction="row">
               <ChoiceData />
               <Box sx={styleApp02}>
-                <em>За {extData}</em>
+                <em>Журнал за {extData}</em>
               </Box>
             </Stack>
             <TabPanel value="1">
