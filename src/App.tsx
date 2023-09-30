@@ -59,7 +59,6 @@ const App = () => {
     borderColor: "#93D145", // ярко-салатовый
     borderRadius: 1,
     color: "black",
-    //marginRight: 1.5,
     marginBottom: 0.3,
     textTransform: "unset !important",
     boxShadow: 12,
@@ -74,7 +73,6 @@ const App = () => {
     borderColor: "#d4d4d4", // серый
     borderRadius: 1,
     color: "black",
-    //marginRight: 1,
     marginBottom: 0.3,
     textTransform: "unset !important",
     boxShadow: 1,
@@ -87,7 +85,8 @@ const App = () => {
     top: "50%",
     transform: "translate(-50%, -50%)",
     width: 121,
-    bgcolor: "#eef4f9",
+    //bgcolor: "#eef4f9", // светло серый
+    bgcolor: "#F4F4F4", // светло серый
     border: "1px solid #000",
     borderColor: "primary.main",
     borderRadius: 1,

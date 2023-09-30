@@ -168,7 +168,8 @@ export const styleBoxHeader = {
 };
 
 export const styleBoxResStr = {
-  bgcolor: "#EDF4FA",
+  bgcolor: "#F4F4F4",
+  //bgcolor: "#F1F5FB", // светло серый
   overflowX: "auto",
   height: "94.5vh",
 };
