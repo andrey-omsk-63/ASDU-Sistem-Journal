@@ -24,7 +24,7 @@ export const LoginsSoobError = (
     height: "21px",
     maxWidth: "2%",
     minWidth: "2%",
-    color: "black",
+    color: "red",
   };
 
   const styleSetInf = {
@@ -33,10 +33,11 @@ export const LoginsSoobError = (
     marginLeft: "36vh",
     width: 340,
     bgcolor: "background.paper",
-    border: "1px solid #000",
-    borderColor: "primary.main",
+    border: "1px solid #fff",
+    //borderColor: "red",
     borderRadius: 1,
     boxShadow: 24,
+    textShadow: "2px 2px 3px rgba(0,0,0,0.3)",
     p: 1.5,
   };
 
