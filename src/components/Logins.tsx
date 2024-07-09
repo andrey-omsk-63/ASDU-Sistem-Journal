@@ -67,10 +67,6 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     setOpenSetErr(false);
   }
   //=================================================
-  // const setOpenSetErr = (mode: boolean) => {
-  //   openSetErr = mode;
-  // };
-
   const SetValue = (mode: number) => {
     nomIllum = mode;
     setValue(mode);
@@ -240,7 +236,10 @@ const Logins = (props: { logName: string; debug: boolean }) => {
         <TextField
           size="small"
           onKeyPress={handleKey} //отключение Enter
-          InputProps={{ disableUnderline: true, style: { fontSize: 14 } }}
+          InputProps={{ disableUnderline: true }}
+          inputProps={{
+            style: { cursor: "pointer", fontSize: 14 },
+          }}
           value={valuen}
           onChange={handleChange}
           variant="standard"
@@ -333,7 +332,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   if (isOpen && isRead) {
     setOpenLoader(true);
     MakeMassPoints(); // создание матрицы страницы
-    console.log('создание матрицы страницы')
+    console.log("создание матрицы страницы");
   }
 
   TabsLogins(value);

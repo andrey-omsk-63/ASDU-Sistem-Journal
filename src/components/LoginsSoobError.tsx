@@ -12,10 +12,6 @@ export const LoginsSoobError = (
   sErr: string,
   setOpen: Function
 ) => {
-  //const [openSet, setOpenSet] = React.useState(props.open);
-
-  //console.log("!!!!LoginsSoobError:", open);
-
   const styleModalEnd = {
     position: "absolute",
     top: "0%",
@@ -34,7 +30,6 @@ export const LoginsSoobError = (
     width: 340,
     bgcolor: "background.paper",
     border: "1px solid #fff",
-    //borderColor: "red",
     borderRadius: 1,
     boxShadow: 24,
     textShadow: "2px 2px 3px rgba(0,0,0,0.3)",
@@ -42,9 +37,7 @@ export const LoginsSoobError = (
   };
 
   const handleCloseEnd = (mode: number) => {
-    //console.log("handleCloseEnd", mode);
     setOpen(false);
-    //setOpenSet(false);
   };
 
   const handleClose = (event: any, reason: string) => {

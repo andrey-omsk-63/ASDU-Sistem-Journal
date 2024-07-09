@@ -18,6 +18,7 @@ let debug = false;
 let openSeans = false;
 let nomIllum = -1;
 let HideBackdrop = true;
+let ipa = window.location.href;
 
 const App = () => {
   const styleApp01 = {
@@ -174,34 +175,49 @@ const App = () => {
     );
   };
 
-  const [points, setPoints] = React.useState<Array<string>>([]);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [ipAdress, setIpAdress] = React.useState(window.location.href);
-
   if (!openSeans) {
-    let pageUrl = new URL(window.location.href);
-    if (pageUrl.href === "http://localhost:3000/") {
-      console.log("РЕЖИМ ОТЛАДКИ!!!");
-      setIpAdress("http://localhost:3000/otladkaGlob.json");
+    ipa = window.location.href;
+    if (ipa.includes("github")) {
+      ipa = "./otladkaGlob.json";
       debug = true;
+    } else {
+      if (ipa.includes("localhost")) {
+        ipa = "http://localhost:3000/otladkaGlob.json";
+        debug = true;
+      }
     }
     openSeans = true;
+    console.log("Adress:", debug, ipa, window.location.href);
   }
+
+  const [points, setPoints] = React.useState<Array<string>>([]);
+  const [isOpen, setIsOpen] = React.useState(false);
+  //const [ipAdress, setIpAdress] = React.useState(ipa);
+
+  // if (!openSeans) {
+  //   let pageUrl = new URL(window.location.href);
+  //   if (pageUrl.href === "http://localhost:3000/") {
+  //     console.log("РЕЖИМ ОТЛАДКИ!!!");
+  //     setIpAdress("http://localhost:3000/otladkaGlob.json");
+  //     debug = true;
+  //   }
+  //   openSeans = true;
+  // }
 
   React.useEffect(() => {
     if (debug) {
-      axios.get(ipAdress).then(({ data }) => {
+      axios.get(ipa).then(({ data }) => {
         console.log("data:", data);
         setPoints(data.fileNames);
       });
     } else {
-      axios.post(ipAdress).then(({ data }) => {
+      axios.post(ipa).then(({ data }) => {
         console.log("data:", data);
         setPoints(data.fileNames);
       });
     }
     setIsOpen(true);
-  }, [ipAdress]);
+  }, [ipa]);
 
   const [value, setValue] = React.useState("0");
 
