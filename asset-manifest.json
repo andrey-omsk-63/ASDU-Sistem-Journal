@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/ASDU-Sistem-Journal/static/css/main.2efb9d5e.css",
-    "main.js": "/ASDU-Sistem-Journal/static/js/main.a251df97.js",
+    "main.js": "/ASDU-Sistem-Journal/static/js/main.cb403ea7.js",
     "index.html": "/ASDU-Sistem-Journal/index.html",
     "main.2efb9d5e.css.map": "/ASDU-Sistem-Journal/static/css/main.2efb9d5e.css.map",
-    "main.a251df97.js.map": "/ASDU-Sistem-Journal/static/js/main.a251df97.js.map"
+    "main.cb403ea7.js.map": "/ASDU-Sistem-Journal/static/js/main.cb403ea7.js.map"
   },
   "entrypoints": [
     "static/css/main.2efb9d5e.css",
-    "static/js/main.a251df97.js"
+    "static/js/main.cb403ea7.js"
   ]
 }
