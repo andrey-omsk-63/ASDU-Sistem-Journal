@@ -5,8 +5,6 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 
-//import { styleModalEnd, styleSetInf } from "./components/MainMapStyle";
-//const LoginsSoobError = (props: { open: boolean; sErr: string; setOpen: any }) => {
 export const LoginsSoobError = (
   open: boolean,
   sErr: string,
@@ -59,4 +57,4 @@ export const LoginsSoobError = (
   );
 };
 
-//export default LoginsSoobError;
+export default LoginsSoobError;

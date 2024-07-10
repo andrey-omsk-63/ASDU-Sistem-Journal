@@ -47,9 +47,9 @@ let formSettOld = "";
 let massPoints: Array<Line> = [];
 let massPointsEtalon: Array<Line> = [];
 let soob = "";
-//let openSetErr = false;
 let nomIllum = 2;
 let resStr: any = [];
+let sbros = 0;
 
 const Logins = (props: { logName: string; debug: boolean }) => {
   const [points, setPoints] = React.useState<Array<LogDatum>>([]);
@@ -63,7 +63,9 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     nomIllum = 2;
     formSett = "";
     formSettOld = "";
-    //openSetErr = false;
+    sbros = 0;
+    props.debug ? setIsOpen(true) : setIsOpen(false);
+    props.debug && setIsRead(true);
     setOpenSetErr(false);
   }
   //=================================================
@@ -121,15 +123,19 @@ const Logins = (props: { logName: string; debug: boolean }) => {
 
   const TabsLogins = (valueSort: number) => {
     if (isOpen) {
+      //console.log("valueSort:",sbros, valueSort);
       switch (valueSort) {
         case 1: // сортировка по type
+          sbros++;
           massPoints.sort((a, b) => a.num - b.num);
           break;
         case 2: // сортировка по time
+          if (sbros) sbros++;
           massPoints.sort((a, b) => a.pnum - b.pnum);
           break;
         case 3: // поиск в сообщениях
           if (formSett) {
+            sbros++;
             let masrab: Array<Line> = [];
             for (let i = 0; i < massPoints.length; i++) {
               let str = massPoints[i].info.toUpperCase();
@@ -148,6 +154,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
           }
           break;
         case 4: // сброс
+          sbros = 0;
           massPoints = massPointsEtalon;
           setValue(2);
           nomIllum = 2;
@@ -213,6 +220,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   const setFind = () => {
     if (!formSett) formSett = formSettOld;
     if (formSett) {
+      sbros++;
       setValue(3);
       setOpenLoader(true);
     }
@@ -267,12 +275,13 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   };
 
   const handleCloseSbros = () => {
-    setOpenLoader(true);
-    setValue(4);
+    if (sbros) {
+      setOpenLoader(true);
+      setValue(4);
+    }
   };
 
   const SetOpenSetErr = (mode: boolean) => {
-    //openSetErr = false;
     setOpenSetErr(mode);
   };
 
@@ -297,6 +306,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
 
   const styleBackdrop = {
     color: "#fff",
+    marginTop: "5vh",
     zIndex: (theme: any) => theme.zIndex.drawer + 1,
   };
 
@@ -305,34 +315,39 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     setTimeout(() => {
       setOpenLoader(false);
     }, 100);
-    //}, []);
+    ///}, []);
   };
 
   const Loader = () => {
     return (
       <Backdrop sx={styleBackdrop} open={openLoader} onClick={handleClose}>
-        <CircularProgress color="inherit" size={548} />
+        <CircularProgress color="inherit" size={212} />
       </Backdrop>
     );
   };
   //============ Чтение страницы журнала ============
   let ipAdress: string =
     window.location.href + "/info?fileName=" + props.logName;
-  if (props.debug) ipAdress = "http://localhost:3000/otlmess.json";
+  if (props.debug) {
+    ipAdress = window.location.href.includes("localhost")
+      ? "http://localhost:3000/otlmess.json"
+      : "./otlmess.json";
+  }
 
   React.useEffect(() => {
+    setOpenLoader(true);
     axios.get(ipAdress).then(({ data }) => {
       setPoints(data.logData);
       setIsRead(true);
+      setIsOpen(true);
+      setValue(2);
     });
-    setIsOpen(true);
-    setValue(2);
   }, [ipAdress]);
   //=================================================
-  if (isOpen && isRead) {
+  if (isRead) {
     setOpenLoader(true);
     MakeMassPoints(); // создание матрицы страницы
-    console.log("создание матрицы страницы");
+    setIsRead(false);
   }
 
   TabsLogins(value);

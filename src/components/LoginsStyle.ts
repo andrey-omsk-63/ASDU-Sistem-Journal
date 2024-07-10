@@ -11,7 +11,6 @@ export const styleXTG02 = {
   borderBottom: 0,
   borderColor: "primary.main",
   textAlign: "center",
-  //backgroundColor: "#C0C0C0",
 };
 
 export const styleXTG021 = {

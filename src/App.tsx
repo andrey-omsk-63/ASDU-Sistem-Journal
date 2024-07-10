@@ -19,6 +19,7 @@ let openSeans = false;
 let nomIllum = -1;
 let HideBackdrop = true;
 let ipa = window.location.href;
+let resStr: any = [];
 
 const App = () => {
   const styleApp01 = {
@@ -86,10 +87,8 @@ const App = () => {
     top: "50%",
     transform: "translate(-50%, -50%)",
     width: 121,
-    //bgcolor: "#eef4f9", // светло серый
     bgcolor: "#F4F4F4", // светло серый
-    border: "1px solid #000",
-    borderColor: "primary.main",
+    border: "1px solid #fff",
     borderRadius: 1,
     boxShadow: 24,
     p: 3,
@@ -107,10 +106,10 @@ const App = () => {
     fontSize: 14,
   };
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [crossData, setCrossData] = React.useState(0);
-
-  const handleOpen = () => setOpen(true);
+  const [points, setPoints] = React.useState<Array<string>>([]);
+  const [value, setValue] = React.useState("0");
 
   const handleClose = (numer: number) => {
     nomIllum = numer;
@@ -129,7 +128,7 @@ const App = () => {
   };
 
   const SpisData = () => {
-    let resStr = [];
+    resStr = [];
     let stroka = "";
     let strDat = "";
 
@@ -138,7 +137,7 @@ const App = () => {
         <b>&#10006;</b>
       </Button>
     );
-    if (isOpen) {
+    if (openSeans) {
       for (let i = 0; i < points.length; i++) {
         let I = points.length - i - 1;
         stroka = points[I];
@@ -163,7 +162,7 @@ const App = () => {
   const ChoiceData = () => {
     return (
       <>
-        <Button sx={styleApp01} onClick={handleOpen}>
+        <Button sx={styleApp01} onClick={() => setOpen(true)}>
           <b>Выбор по дате</b>
         </Button>
         <Modal open={open} hideBackdrop={HideBackdrop}>
@@ -186,40 +185,18 @@ const App = () => {
         debug = true;
       }
     }
-    openSeans = true;
-    console.log("Adress:", debug, ipa, window.location.href);
-  }
-
-  const [points, setPoints] = React.useState<Array<string>>([]);
-  const [isOpen, setIsOpen] = React.useState(false);
-  //const [ipAdress, setIpAdress] = React.useState(ipa);
-
-  // if (!openSeans) {
-  //   let pageUrl = new URL(window.location.href);
-  //   if (pageUrl.href === "http://localhost:3000/") {
-  //     console.log("РЕЖИМ ОТЛАДКИ!!!");
-  //     setIpAdress("http://localhost:3000/otladkaGlob.json");
-  //     debug = true;
-  //   }
-  //   openSeans = true;
-  // }
-
-  React.useEffect(() => {
     if (debug) {
       axios.get(ipa).then(({ data }) => {
-        console.log("data:", data);
         setPoints(data.fileNames);
+        openSeans = true;
       });
     } else {
       axios.post(ipa).then(({ data }) => {
-        console.log("data:", data);
         setPoints(data.fileNames);
+        openSeans = true;
       });
     }
-    setIsOpen(true);
-  }, [ipa]);
-
-  const [value, setValue] = React.useState("0");
+  }
 
   return (
     <>
