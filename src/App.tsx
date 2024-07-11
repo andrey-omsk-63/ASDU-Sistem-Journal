@@ -187,13 +187,13 @@ const App = () => {
     }
     if (debug) {
       axios.get(ipa).then(({ data }) => {
-        setPoints(data.fileNames);
         openSeans = true;
+        setPoints(data.fileNames);
       });
     } else {
       axios.post(ipa).then(({ data }) => {
-        setPoints(data.fileNames);
         openSeans = true;
+        setPoints(data.fileNames);
       });
     }
   }

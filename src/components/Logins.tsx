@@ -135,7 +135,6 @@ const Logins = (props: { logName: string; debug: boolean }) => {
           break;
         case 3: // поиск в сообщениях
           if (formSett) {
-            sbros++;
             let masrab: Array<Line> = [];
             for (let i = 0; i < massPoints.length; i++) {
               let str = massPoints[i].info.toUpperCase();
@@ -146,6 +145,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
             if (masrab.length) {
               massPoints = [];
               massPoints = masrab;
+              sbros++;
             } else {
               soob = "По вашему запросу ничего не найдено";
               setOpenSetErr(true);
@@ -220,7 +220,6 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   const setFind = () => {
     if (!formSett) formSett = formSettOld;
     if (formSett) {
-      sbros++;
       setValue(3);
       setOpenLoader(true);
     }

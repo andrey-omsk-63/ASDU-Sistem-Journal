@@ -24,7 +24,7 @@ export const styleXTG021 = {
 export const styleXTG03 = {
   borderRight: 1,
   borderBottom: 1,
-  borderColor: "primary.main",
+  borderColor: "#d4d4d4", // серый
   padding: 1,
   textAlign: "center",
   color: "black",
@@ -33,7 +33,7 @@ export const styleXTG03 = {
 export const styleXTG033 = {
   borderRight: 1,
   borderBottom: 1,
-  borderColor: "primary.main",
+  borderColor: "#d4d4d4", // серый
   padding: 1,
   textAlign: "center",
   color: "red",
@@ -42,7 +42,7 @@ export const styleXTG033 = {
 export const styleXTG04 = {
   borderRight: 1,
   borderBottom: 1,
-  borderColor: "primary.main",
+  borderColor: "#d4d4d4", // серый
   padding: 1,
   color: "black",
 };
@@ -50,7 +50,7 @@ export const styleXTG04 = {
 export const styleXTG044 = {
   borderRight: 1,
   borderBottom: 1,
-  borderColor: "primary.main",
+  borderColor: "#d4d4d4", // серый
   padding: 1,
   color: "red",
 };
