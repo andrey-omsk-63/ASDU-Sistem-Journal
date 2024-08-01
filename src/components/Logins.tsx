@@ -48,7 +48,7 @@ let massPoints: Array<Line> = [];
 let massPointsEtalon: Array<Line> = [];
 let soob = "";
 let nomIllum = 2;
-let resStr: any = [];
+//let resStr: any = [];
 let sbros = 0;
 
 const Logins = (props: { logName: string; debug: boolean }) => {
@@ -104,26 +104,41 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   };
 
   const StrokaLogins = () => {
-    resStr = [];
-    if (isOpen) {
-      for (let i = 0; i < massPoints.length; i++) {
-        let style4 = massPoints[i].haveError ? styleXTG044 : styleXTG04;
-        let style3 = massPoints[i].haveError ? styleXTG033 : styleXTG03;
-        resStr.push(
-          <Grid key={i} container item>
-            {ContentStrokaLogins(1.5, massPoints[i].type, style4)}
-            {ContentStrokaLogins(1, massPoints[i].time, style3)}
-            {ContentStrokaLogins(9.5, massPoints[i].info, style4)}
-          </Grid>
-        );
-      }
-    }
-    return resStr;
+    // resStr = [];
+    // if (isOpen) {
+    //   for (let i = 0; i < massPoints.length; i++) {
+    //     let style4 = massPoints[i].haveError ? styleXTG044 : styleXTG04;
+    //     let style3 = massPoints[i].haveError ? styleXTG033 : styleXTG03;
+    //     resStr.push(
+    //       <Grid key={i} container item>
+    //         {ContentStrokaLogins(1.5, massPoints[i].type, style4)}
+    //         {ContentStrokaLogins(1, massPoints[i].time, style3)}
+    //         {ContentStrokaLogins(9.5, massPoints[i].info, style4)}
+    //       </Grid>
+    //     );
+    //   }
+    // }
+    // return resStr;
+    return (
+      <>
+        {isOpen &&
+          massPoints.map((masp: any, idx: number) => {
+            let style4 = masp.haveError ? styleXTG044 : styleXTG04;
+            let style3 = masp.haveError ? styleXTG033 : styleXTG03;
+            return (
+              <Grid key={idx} container>
+                {ContentStrokaLogins(1.5, masp.type, style4)}
+                {ContentStrokaLogins(1, masp.time, style3)}
+                {ContentStrokaLogins(9.5, masp.info, style4)}
+              </Grid>
+            );
+          })}
+      </>
+    );
   };
 
   const TabsLogins = (valueSort: number) => {
     if (isOpen) {
-      //console.log("valueSort:",sbros, valueSort);
       switch (valueSort) {
         case 1: // сортировка по type
           sbros++;
@@ -290,7 +305,8 @@ const Logins = (props: { logName: string; debug: boolean }) => {
         <Box sx={styleBoxHeader}>{HeaderLogins()}</Box>
         <Box sx={{ height: "92vh" }}>
           <Box sx={styleBoxResStr}>
-            <Box sx={styleBoxFocus}>{resStr}</Box>
+            {/* <Box sx={styleBoxFocus}>{resStr}</Box> */}
+            <Box sx={styleBoxFocus}>{StrokaLogins()}</Box>
           </Box>
         </Box>
         {openSetErr && <>{LoginsSoobError(openSetErr, soob, SetOpenSetErr)} </>}
@@ -350,7 +366,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   }
 
   TabsLogins(value);
-  StrokaLogins();
+  //StrokaLogins();
 
   return (
     <>
