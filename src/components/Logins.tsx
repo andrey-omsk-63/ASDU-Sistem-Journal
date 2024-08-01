@@ -259,9 +259,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
           size="small"
           onKeyPress={handleKey} //отключение Enter
           InputProps={{ disableUnderline: true }}
-          inputProps={{
-            style: { cursor: "pointer", fontSize: 14 },
-          }}
+          inputProps={{ style: { cursor: "pointer", fontSize: 14 } }}
           value={valuen}
           onChange={handleChange}
           variant="standard"
@@ -305,7 +303,6 @@ const Logins = (props: { logName: string; debug: boolean }) => {
         <Box sx={styleBoxHeader}>{HeaderLogins()}</Box>
         <Box sx={{ height: "92vh" }}>
           <Box sx={styleBoxResStr}>
-            {/* <Box sx={styleBoxFocus}>{resStr}</Box> */}
             <Box sx={styleBoxFocus}>{StrokaLogins()}</Box>
           </Box>
         </Box>
@@ -326,11 +323,9 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   };
 
   const Output = () => {
-    //React.useEffect(() => {
     setTimeout(() => {
       setOpenLoader(false);
-    }, 100);
-    ///}, []);
+    }, 500);
   };
 
   const Loader = () => {
