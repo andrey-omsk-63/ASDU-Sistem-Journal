@@ -48,7 +48,6 @@ let massPoints: Array<Line> = [];
 let massPointsEtalon: Array<Line> = [];
 let soob = "";
 let nomIllum = 2;
-//let resStr: any = [];
 let sbros = 0;
 
 const Logins = (props: { logName: string; debug: boolean }) => {
@@ -61,8 +60,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   if (oldData !== props.logName) {
     oldData = props.logName;
     nomIllum = 2;
-    formSett = "";
-    formSettOld = "";
+    formSett = formSettOld = "";
     sbros = 0;
     props.debug ? setIsOpen(true) : setIsOpen(false);
     props.debug && setIsRead(true);
@@ -98,27 +96,14 @@ const Logins = (props: { logName: string; debug: boolean }) => {
             <b>Время</b>
           </Button>
         </Grid>
-        {ContentStrokaLogins(2, "Сообщение", styleXTG021)}
+        <Grid item xs={3} sx={{ padding: "2px 8px 0px 212px" }}>
+          <b>Сообщение</b>
+        </Grid>
       </Grid>
     );
   };
 
   const StrokaLogins = () => {
-    // resStr = [];
-    // if (isOpen) {
-    //   for (let i = 0; i < massPoints.length; i++) {
-    //     let style4 = massPoints[i].haveError ? styleXTG044 : styleXTG04;
-    //     let style3 = massPoints[i].haveError ? styleXTG033 : styleXTG03;
-    //     resStr.push(
-    //       <Grid key={i} container item>
-    //         {ContentStrokaLogins(1.5, massPoints[i].type, style4)}
-    //         {ContentStrokaLogins(1, massPoints[i].time, style3)}
-    //         {ContentStrokaLogins(9.5, massPoints[i].info, style4)}
-    //       </Grid>
-    //     );
-    //   }
-    // }
-    // return resStr;
     return (
       <>
         {isOpen &&
@@ -153,9 +138,8 @@ const Logins = (props: { logName: string; debug: boolean }) => {
             let masrab: Array<Line> = [];
             for (let i = 0; i < massPoints.length; i++) {
               let str = massPoints[i].info.toUpperCase();
-              if (str.indexOf(formSett.toUpperCase()) !== -1) {
+              if (str.indexOf(formSett.toUpperCase()) !== -1)
                 masrab.push(massPoints[i]);
-              }
             }
             if (masrab.length) {
               massPoints = [];
@@ -171,10 +155,8 @@ const Logins = (props: { logName: string; debug: boolean }) => {
         case 4: // сброс
           sbros = 0;
           massPoints = massPointsEtalon;
-          setValue(2);
-          nomIllum = 2;
-          formSett = "";
-          formSettOld = "";
+          setValue((nomIllum = 2));
+          formSett = formSettOld = "";
           break;
       }
       Output();
@@ -301,7 +283,7 @@ const Logins = (props: { logName: string; debug: boolean }) => {
     return (
       <Box sx={styleBoxGl}>
         <Box sx={styleBoxHeader}>{HeaderLogins()}</Box>
-        <Box sx={{ height: "92vh" }}>
+        <Box sx={{ height: "92.19vh", border: 0 }}>
           <Box sx={styleBoxResStr}>
             <Box sx={styleBoxFocus}>{StrokaLogins()}</Box>
           </Box>
@@ -338,11 +320,10 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   //============ Чтение страницы журнала ============
   let ipAdress: string =
     window.location.href + "/info?fileName=" + props.logName;
-  if (props.debug) {
+  if (props.debug)
     ipAdress = window.location.href.includes("localhost")
       ? "http://localhost:3000/otlmess.json"
       : "./otlmess.json";
-  }
 
   React.useEffect(() => {
     setOpenLoader(true);
@@ -361,7 +342,6 @@ const Logins = (props: { logName: string; debug: boolean }) => {
   }
 
   TabsLogins(value);
-  //StrokaLogins();
 
   return (
     <>

@@ -29,10 +29,10 @@ const App = () => {
     maxHeight: "21px",
     minHeight: "21px",
     backgroundColor: "#E9F5D8", // светло салатовый
-    border: "1px solid #000",
-    borderColor: "#d4d4d4", // серый
+    border: "1px solid #d4d4d4", // серый
     borderRadius: 1,
     color: "black",
+    padding: "2px 8px 0px 8px",
     textTransform: "unset !important",
     boxShadow: 1,
   };
@@ -44,8 +44,7 @@ const App = () => {
     maxHeight: "18px",
     minHeight: "18px",
     backgroundColor: "#FFE295",
-    border: "1px solid #000",
-    borderColor: "#d4d4d4", // серый
+    border: "1px solid #d4d4d4", // серый
     borderRadius: 1,
     color: "black",
     textAlign: "center",
@@ -57,8 +56,7 @@ const App = () => {
     maxHeight: "20px",
     minHeight: "20px",
     bgcolor: "#BAE186", // тёмно-салатовый
-    border: "1px solid #000",
-    borderColor: "#93D145", // ярко-салатовый
+    border: "1px solid #93D145", // ярко-салатовый
     borderRadius: 1,
     color: "black",
     marginBottom: 0.3,
@@ -71,8 +69,7 @@ const App = () => {
     maxHeight: "20px",
     minHeight: "20px",
     backgroundColor: "#E9F5D8", // светло салатовый
-    border: "1px solid #000",
-    borderColor: "#d4d4d4", // серый
+    border: "1px solid #d4d4d4", // серый
     borderRadius: 1,
     color: "black",
     marginBottom: 0.3,

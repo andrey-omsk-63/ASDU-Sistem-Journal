@@ -18,7 +18,6 @@ export const styleXTG021 = {
   borderBottom: 0,
   borderColor: "primary.main",
   textAlign: "center",
-  //backgroundColor: "#C0C0C0",
 };
 
 export const styleXTG03 = {
@@ -71,8 +70,7 @@ export const styleBut01 = {
   maxHeight: "20px",
   minHeight: "20px",
   bgcolor: "#BAE186", // тёмно-салатовый
-  border: "1px solid #000",
-  borderColor: "#93D145", // ярко-салатовый
+  border: "1px solid #93D145", // ярко-салатовый
   borderRadius: 1,
   color: "black",
   textTransform: "unset !important",
@@ -86,27 +84,11 @@ export const styleBut02 = {
   maxHeight: "20px",
   minHeight: "20px",
   bgcolor: "#E9F5D8", // светло салатовый
-  border: "1px solid #000",
-  borderColor: "#d4d4d4", // серый
+  border: "1px solid #d4d4d4", // серый
   borderRadius: 1,
   color: "black",
   textTransform: "unset !important",
   boxShadow: 1,
-};
-
-export const styleSet = {
-  position: "absolute",
-  top: "14%",
-  right: "-9%",
-  transform: "translate(-50%, -50%)",
-  width: 360,
-  bgcolor: "background.paper",
-  border: "3px solid #000",
-  borderColor: "primary.main",
-  borderRadius: 2,
-  boxShadow: 24,
-  textAlign: "center",
-  p: 2,
 };
 
 export const styleReset = {
@@ -116,10 +98,10 @@ export const styleReset = {
   maxHeight: "21px",
   minHeight: "21px",
   backgroundColor: "#E9F5D8", // светло салатовый
-  border: "1px solid #000",
-  borderColor: "#d4d4d4", // серый
+  border: "1px solid #d4d4d4", // серый
   borderRadius: 1,
   color: "black",
+  padding: "2px 8px 0px 8px",
   textTransform: "unset !important",
   boxShadow: 1,
 };
@@ -139,17 +121,15 @@ export const styleServisKnop = {
   maxHeight: "21px",
   minHeight: "21px",
   backgroundColor: "#E9F5D8", // светло салатовый
-  border: "1px solid #000",
-  borderColor: "#d4d4d4", // серый
+  border: "1px solid #d4d4d4", // серый
   borderRadius: 1,
   color: "#5B1080", // сереневый
+  padding: "2px 8px 0px 8px",
   textTransform: "unset !important",
   boxShadow: 2,
 };
 
 export const styleBoxGl = {
-  border: 0,
-  //height: "93vh",
   fontSize: 12,
   marginTop: -2.4,
   marginLeft: -3,
@@ -157,18 +137,14 @@ export const styleBoxGl = {
 };
 
 export const styleBoxHeader = {
-  border: 1,
+  border: "1px solid #d5d5d5", // серый
   borderRadius: 1,
-  //borderColor: "primary.main",
-  borderColor: "#d5d5d5",
-  //backgroundColor: "#C0C0C0",
   bgcolor: "#C0E2C3",
   height: "22px",
 };
 
 export const styleBoxResStr = {
-  bgcolor: "#F4F4F4",
-  //bgcolor: "#F1F5FB", // светло серый
+  background: "linear-gradient(150deg, #F5F8FC 59%, #CBDAEF )",
   overflowX: "auto",
   height: "94.5vh",
 };
@@ -187,8 +163,7 @@ export const styleP02 = {
   minHeight: "21px",
   maxWidth: "75px",
   minWidth: "75px",
-  border: "1px solid #000",
-  borderColor: "#d4d4d4", // серый
+  border: "1px solid #d4d4d4", // серый
   borderRadius: 1,
   boxShadow: 2,
 };
