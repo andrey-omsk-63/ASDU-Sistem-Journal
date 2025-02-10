@@ -18,7 +18,7 @@ export const LoginsSoobError = (
     height: "21px",
     maxWidth: "2%",
     minWidth: "2%",
-    color: "red",
+    color: "black",
   };
 
   const styleSetInf = {
@@ -26,9 +26,10 @@ export const LoginsSoobError = (
     marginTop: "21vh",
     marginLeft: "36vh",
     width: 340,
-    bgcolor: "background.paper",
-    border: "1px solid #fff",
+    bgcolor: "#FFDB4D", // жёлтый
+    border: "1px solid #FFEDA6",
     borderRadius: 1,
+    color: "black",
     boxShadow: 24,
     textShadow: "2px 2px 3px rgba(0,0,0,0.3)",
     p: 1.5,
@@ -49,7 +50,7 @@ export const LoginsSoobError = (
         <Button sx={styleModalEnd} onClick={() => handleCloseEnd(1)}>
           <b>&#10006;</b>
         </Button>
-        <Typography variant="h6" sx={{ textAlign: "center", color: "red" }}>
+        <Typography variant="h6" sx={{ textAlign: "center" }}>
           {sErr}
         </Typography>
       </Box>
