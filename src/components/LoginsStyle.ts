@@ -114,6 +114,7 @@ export const styleServis = {
   minHeight: "21px",
   maxWidth: "360px",
   minWidth: "360px",
+  cursor: "default",
 };
 
 export const styleServisKnop = {
@@ -134,6 +135,7 @@ export const styleBoxGl = {
   marginTop: -2.4,
   marginLeft: -3,
   marginRight: -3,
+  cursor: "default",
 };
 
 export const styleBoxHeader = {

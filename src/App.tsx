@@ -49,6 +49,7 @@ const App = () => {
     color: "black",
     textAlign: "center",
     boxShadow: 3,
+    cursor: "default",
   };
 
   const styleModalMenu01 = {
