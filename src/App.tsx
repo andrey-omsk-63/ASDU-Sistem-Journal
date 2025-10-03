@@ -196,24 +196,35 @@ const App = () => {
     }
   }
 
+  // const OutputExtData = () => {
+  //   let eData = "Журнал за " + extData;
+
+  //   console.log("***extData:", extData, eData);
+
+  //   return (
+  //     <Box sx={styleApp02}>
+  //       <em>{eData}</em>
+  //     </Box>
+  //   );
+  // };
+
   return (
-    <>
-      <Grid container sx={{ border: 0, marginTop: 0 }}>
-        <Grid item xs={12}>
-          <TabContext value={value}>
-            <Stack direction="row">
-              <ChoiceData />
-              <Box sx={styleApp02}>
-                <em>Журнал за {extData}</em>
-              </Box>
-            </Stack>
-            <TabPanel value="1">
-              <Logins logName={points[crossData]} debug={debug} />
-            </TabPanel>
-          </TabContext>
-        </Grid>
+    <Grid container sx={{ border: 0, marginTop: 0 }}>
+      <Grid item xs={12}>
+        <TabContext value={value}>
+          <Stack direction="row">
+            <ChoiceData />
+            {/* {OutputExtData()} */}
+            <Box sx={styleApp02}>
+              <em>Журнал за {extData}</em>
+            </Box>
+          </Stack>
+          <TabPanel value="1">
+            <Logins logName={points[crossData]} debug={debug} />
+          </TabPanel>
+        </TabContext>
       </Grid>
-    </>
+    </Grid>
   );
 };
 
